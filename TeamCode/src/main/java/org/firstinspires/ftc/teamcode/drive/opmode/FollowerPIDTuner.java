@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.common.AutoDrivetrain;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 /*
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * you've successfully connected, start the program, and your robot will begin driving in a square.
  * You should observe the target position (green) and your pose estimate (blue) and adjust your
  * follower PID coefficients such that you follow the target position as accurately as possible.
- * If you are using SampleMecanumDrive, you should be tuning TRANSLATIONAL_PID and HEADING_PID.
+ * If you are using AutoDrivetrain, you should be tuning TRANSLATIONAL_PID and HEADING_PID.
  * If you are using SampleTankDrive, you should be tuning AXIAL_PID, CROSS_TRACK_PID, and HEADING_PID.
  * These coefficients can be tuned live in dashboard.
  */
@@ -27,11 +28,8 @@ public class FollowerPIDTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
         Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);
-
-        drive.setPoseEstimate(startPose);
+        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry, startPose, false);
 
         waitForStart();
 

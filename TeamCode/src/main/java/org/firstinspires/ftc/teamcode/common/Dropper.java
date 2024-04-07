@@ -14,10 +14,8 @@ public class Dropper extends Component {
     public static double lowerSensorThreshold = 15.0;
     private final ColorRangeSensor upperSensor;
     public static double upperSensorThreshold = 15.0;
-
     private final Servo lowerServo;
     private final Servo upperServo;
-
     private final double upperServoLockPos = 1;
     private final double upperServoUnlockPos = 0.5;
     private final double lowerServoLockPos = 1;
@@ -33,7 +31,7 @@ public class Dropper extends Component {
         upperSensor = hardwareMap.get(ColorRangeSensor.class, "dropperUpperSensor");
         lowerServo = hardwareMap.get(Servo.class, "dropperLowerServo");
         upperServo = hardwareMap.get(Servo.class, "dropperUpperServo");
-        unlockServos();
+        lockServos();
     }
 
     private void log()
@@ -51,7 +49,8 @@ public class Dropper extends Component {
         }
     }
 
-    public void load() {unlockServos();
+    public void load() {
+        unlockServos();
     }
 
     private int countPixels() {
