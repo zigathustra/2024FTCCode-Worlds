@@ -71,22 +71,6 @@ public class Lift extends Component {
         }
     }
 
-    /*
-    public void autoUp(double maxPower) {
-        this.maxPower = maxPower;
-        if (!atTop()) {
-            targetPos = targetPos + increment;
-        }
-    }
-
-    public void autoDown(double maxPower) {
-        this.maxPower = maxPower;
-        if (!atBottom()) {
-            targetPos = targetPos - increment;
-        }
-    }
-    */
-
     public void manualUp(double power)
     {
         if (!atTop(manualOffset))

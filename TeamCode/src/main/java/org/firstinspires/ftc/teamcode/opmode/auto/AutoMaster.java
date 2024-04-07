@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.apache.commons.math3.ode.events.Action;
 import org.firstinspires.ftc.teamcode.common.AutoBot;
 import org.firstinspires.ftc.teamcode.common.enums.Alliance;
-import org.firstinspires.ftc.teamcode.common.enums.ParkPosition;
 import org.firstinspires.ftc.teamcode.common.enums.PropDirection;
 import org.firstinspires.ftc.teamcode.common.enums.StartPosition;
 import org.firstinspires.ftc.teamcode.common.vision.PropPipeline;
@@ -22,10 +21,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 public abstract class AutoMaster extends LinearOpMode {
     protected Alliance alliance;
     protected StartPosition startPosition;
-    protected ParkPosition parkPosition;
     int riggingDirection;
     int boardDirection;
-    int parkDirection;
 
     public static boolean loggingOn = false;
 
@@ -40,7 +37,6 @@ public abstract class AutoMaster extends LinearOpMode {
 
     protected AutoBot bot;
     protected VisionSensor visionSensor;
-
     protected TrajectorySequence leftTrajectorySequence;
     protected TrajectorySequence centerTrajectorySequence;
     protected TrajectorySequence rightTrajectorySequence;
@@ -48,10 +44,9 @@ public abstract class AutoMaster extends LinearOpMode {
     protected Pose2d startPose, leftSpikePose, rightSpikePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
     protected AutoConstants autoConstants = new AutoConstants();
 
-    protected AutoMaster(Alliance alliance, StartPosition startPosition, ParkPosition parkPosition) {
+    protected AutoMaster(Alliance alliance, StartPosition startPosition) {
         this.alliance = alliance;
         this.startPosition = startPosition;
-        this.parkPosition = parkPosition;
     }
 
     @Override
@@ -63,8 +58,6 @@ public abstract class AutoMaster extends LinearOpMode {
 //        riggingDirection = determineRiggingDirection();
 
 //        boardDirection = determineBoardDirection(riggingDirection);
-
-//        parkDirection = determineParkDirection(parkPosition, boardDirection);
 
 //        visionSensor.goToPropDetectionMode();
 
@@ -86,21 +79,18 @@ public abstract class AutoMaster extends LinearOpMode {
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                 .forward(autoConstants.MIDDLE_SPIKE_DISTANCE)
-//                .addTemporalMarker(() -> placePixelOnSpikeMark())
+                .addTemporalMarker(() -> placePixelOnSpikeMark())
                 .waitSeconds(3)
                 .back(autoConstants.INITIAL_FORWARD_DIST)
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-//                .addTemporalMarker(() -> placePixelOnBoard())
+                .addTemporalMarker(() -> placePixelOnBoard())
                 .waitSeconds(3)
                 .splineToLinearHeading(parkPose, parkPose.getHeading())
                 .build();
 
         sleep(500);
         while (!isStarted() && !isStopRequested()) {
-            if (isStopRequested())
-            {
-                return();
-            }
+
             //           propDirection = visionSensor.getPropDirection();
             propDirection = PropDirection.CENTER;
             telemetry.addData("Prop Position: ", propDirection);
@@ -111,9 +101,10 @@ public abstract class AutoMaster extends LinearOpMode {
         if (!isStopRequested()) {
             //           visionSensor.goToNoSensingMode();
             selectedTrajectorySequence = selectTrajectorySequence();
- 
+
         }
     }
+
     protected TrajectorySequence selectTrajectorySequence() {
         if (propDirection == PropDirection.LEFT) {
             return leftTrajectorySequence;
@@ -123,42 +114,11 @@ public abstract class AutoMaster extends LinearOpMode {
             return centerTrajectorySequence;
         }
     }
-
-    protected int determineRiggingDirection() {
-        if (((startPosition == StartPosition.FAR) && (alliance == Alliance.BLUE)) ||
-                ((startPosition == StartPosition.NEAR) && (alliance == Alliance.RED))) {
-            return (-1);
-        } else {
-            return (1);
-        }
+    protected void placePixelOnSpikeMark() {
+        bot.dropPixel();
     }
 
-    protected int determineBoardDirection(int riggingDirection) {
-        if (startPosition == StartPosition.FAR) {
-            return (riggingDirection);
-        } else {
-            return (-riggingDirection);
-        }
-    }
-
-    protected int determineParkDirection(ParkPosition parkPosition, int boardDirection) {
-        if (parkPosition == ParkPosition.CORNER) {
-            return (boardDirection);
-        } else if (parkPosition == ParkPosition.CENTER) {
-            return (-boardDirection);
-        } else {
-            return (0);
-        }
-    }
-
-    // Assumes dropper is deployed
-    protected void placePixelOnSpikeMark()
-    {
-    }
-
-
-    // Assumes dropper is deployed
-    protected void placePixelOnBoard()
-    {
+    protected void placePixelOnBoard() {
+        bot.dropPixel();
     }
 }

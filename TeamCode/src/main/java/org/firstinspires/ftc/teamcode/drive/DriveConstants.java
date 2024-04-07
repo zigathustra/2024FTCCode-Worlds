@@ -19,12 +19,11 @@ import org.firstinspires.ftc.teamcode.common.hardware_data.GoBilda312DcMotorData
  */
 @Config
 public class DriveConstants {
-
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = GoBilda312DcMotorData.ticksPerGearboxRev;
-    public static final double MAX_RPM = GoBilda312DcMotorData.maxGearboxRpm;
+    public static final double TICKS_PER_REV = 537.6;
+    public static final double MAX_RPM = 312;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -67,10 +66,11 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 30; // to be tuned
-    public static double MAX_ACCEL = 30; // to be tuned
-    public static double MAX_ANG_VEL = Math.toRadians(180);
-    public static double MAX_ANG_ACCEL = Math.toRadians(180);
+    public static double MAX_VEL = 52.48180821614297;
+    public static double MAX_ACCEL = 52.48180821614297;
+    public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);
+    public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
+
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.

@@ -19,17 +19,10 @@ public class Bot extends Component {
     public static boolean handlerDeploying = false;
     public static boolean handlerRetracting = false;
     public static boolean dropperDeployed = false;
-
     private double shoulderRUpPos = 1.0;
-    //    private double shoulderRMidPos = 0.5;
     private double shoulderRDownPos = 0.25;
     private double shoulderLUpPos = 1.0;
-    //    private double shoulderLMidPos = 0.5;
     private double shoulderLDownPos = 0.00;
-
-    // Value when full shoulder range is enabled
-//    private double wristUpPos = 0.9;
-
     private double wristUpPos = 0.5;
     private double wristDownPos = 0.15;
     private double launcherLockPos = 0.75;
@@ -37,9 +30,8 @@ public class Bot extends Component {
     private boolean loading = false;
     ElapsedTime timer;
 
-
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, boolean loggingOn) {
-        super(telemetry, true);
+        super(telemetry, false);
         // Intake
         intake = new Intake(hardwareMap, telemetry, loggingOn);
 
@@ -107,13 +99,13 @@ public class Bot extends Component {
     public void load() {
         if (!handlerDeployed) {
             dropper.load();
-            intake.deploy();
+            intakeDeploy();
             loading = true;
         }
     }
 
     public void stopLoad() {
-        intake.retract();
+        intakeRetract();
         dropper.stopLoad();
         loading = false;
     }
@@ -147,9 +139,22 @@ public class Bot extends Component {
         launcher.setPosition(launcherUnlockPos);
     }
 
-    public void intakeOn()
+    public void intakeDeploy()
     {
-        intake.manualForward(0.9);
+        intake.deploy();
+    }
+    public void intakeRetract()
+    {
+        intake.retract();
+    }
+    public void intakeForward()
+    {
+        intake.forward();
+    }
+
+    public void intakeReverse()
+    {
+        intake.reverse();
     }
 
     public void intakeOff()

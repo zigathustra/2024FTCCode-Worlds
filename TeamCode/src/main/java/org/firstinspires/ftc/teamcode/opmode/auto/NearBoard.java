@@ -10,7 +10,7 @@ public class NearBoard extends AutoMaster {
 
     protected NearBoard(Alliance alliance)
     {
-        super(alliance, StartPosition.NEAR, ParkPosition.NONE);
+        super(alliance, StartPosition.NEAR);
         if (alliance == alliance.RED)
         {
             startPose =  reflectY(autoConstants.CLOSE_START);
@@ -21,9 +21,5 @@ public class NearBoard extends AutoMaster {
             centerBoardPose = reflectY(autoConstants.MIDDLE_BACKDROP);
             parkPose = reflectY(autoConstants.CLOSE_PARK);
         }
-    }
-
-    protected void park(double boardDirection, int targetAprilTagNumber, double parkDirection)
-    {
     }
 }

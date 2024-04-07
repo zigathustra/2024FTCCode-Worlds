@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 @Config
 public final class AutoConstants {
 
-    public static double INITIAL_FORWARD_DIST = 15.5;
+    public static double INITIAL_FORWARD_DISTANCE = 15.5;
     public static double MIDDLE_SPIKE_DISTANCE = 29;
     public static double ARM_LIFT_DELAY = -2.25;
     public static double PRELOAD_SCORE_DELAY = -2;

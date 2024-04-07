@@ -11,8 +11,8 @@ public class Intake extends Component {
     private final DcMotorEx intakeMotor;
     private final Servo intakeServo;
     private final double upPos = 1.0;
-    private final double downPos = 0.15;
-    private final double power = 0.00;
+    private final double downPos = 0.175;
+    private final double maxPower = 0.00;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetry, boolean loggingOn) {
         super(telemetry, loggingOn);
@@ -45,24 +45,18 @@ public class Intake extends Component {
     {
         intakeServo.setPosition(downPos);
     }
-
     public void forward()
     {
-        intakeMotor.setPower(power);
+        intakeMotor.setPower(maxPower);
     }
-    public void manualForward(double power)
+    public void reverse()
     {
-        intakeMotor.setPower(power);
-    }
-    private void reverse()
-    {
-        intakeMotor.setPower(-power);
+        intakeMotor.setPower(-maxPower);
     }
     public void stop()
     {
         intakeMotor.setPower(0.0);
     }
-
     public void update()
     {
     }
