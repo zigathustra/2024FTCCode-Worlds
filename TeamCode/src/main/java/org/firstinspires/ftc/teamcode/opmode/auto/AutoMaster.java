@@ -86,29 +86,32 @@ public abstract class AutoMaster extends LinearOpMode {
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                 .forward(autoConstants.MIDDLE_SPIKE_DISTANCE)
-                .addTemporalMarker(() -> placePixelOnSpikeMark())
+//                .addTemporalMarker(() -> placePixelOnSpikeMark())
                 .waitSeconds(3)
+                .back(autoConstants.INITIAL_FORWARD_DIST)
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-                .addTemporalMarker(() -> placePixelOnBoard())
-                .waitSeconds(5)
-                .lineToLinearHeading(parkPose)
+//                .addTemporalMarker(() -> placePixelOnBoard())
+                .waitSeconds(3)
+                .splineToLinearHeading(parkPose, parkPose.getHeading())
                 .build();
 
         sleep(500);
         while (!isStarted() && !isStopRequested()) {
+            if (isStopRequested())
+            {
+                return();
+            }
             //           propDirection = visionSensor.getPropDirection();
-            propDirection = PropDirection.LEFT;
+            propDirection = PropDirection.CENTER;
             telemetry.addData("Prop Position: ", propDirection);
             telemetry.update();
 
             sleep(50);
         }
         if (!isStopRequested()) {
-            if (isStopRequested()) {
-                return;
-            }
             //           visionSensor.goToNoSensingMode();
             selectedTrajectorySequence = selectTrajectorySequence();
+ 
         }
     }
     protected TrajectorySequence selectTrajectorySequence() {

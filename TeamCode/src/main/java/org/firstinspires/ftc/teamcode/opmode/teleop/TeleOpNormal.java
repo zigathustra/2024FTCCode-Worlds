@@ -26,6 +26,7 @@ public class TeleOpNormal extends LinearOpMode {
         double leftTrigger = 0.0;
         double rightTrigger = 0.0;
         double liftPowerFactor = 0.5;
+        double hangPowerFactor = 1.0;
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -54,13 +55,17 @@ public class TeleOpNormal extends LinearOpMode {
             leftTrigger = gamepad1.left_trigger;
             rightTrigger = gamepad1.right_trigger;
             if (leftTrigger > 0.3) {
-                bot.liftManualDown(leftTrigger*liftPowerFactor);
+                bot.liftManualDown(leftTrigger * liftPowerFactor);
             } else if (rightTrigger > 0.3) {
-                bot.liftManualUp(rightTrigger*liftPowerFactor);
-            } else
-            {
-                bot.liftStop();
+                bot.liftManualUp(rightTrigger * liftPowerFactor);
+            } else {
+                if (gamepad1.ps) {
+                    bot.liftManualDown(hangPowerFactor);
+                } else {
+                    bot.liftStop();
+                }
             }
+
 
             if (gamepad1.triangle) {
                 bot.handlerDeploy();
@@ -79,11 +84,9 @@ public class TeleOpNormal extends LinearOpMode {
                 sleep(200);
             }
 
-            if (gamepad1.start)
-            {
+            if (gamepad1.start) {
                 bot.intakeOn();
-            } else if (gamepad1.share)
-            {
+            } else if (gamepad1.share) {
                 bot.intakeOff();
             }
             bot.update();
