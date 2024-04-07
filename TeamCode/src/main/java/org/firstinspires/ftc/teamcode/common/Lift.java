@@ -25,6 +25,7 @@ public class Lift extends Component {
     private final int maxPos = 2000;
     private final int retractPos = 800;
     private final int deployPos = 1000;
+    private final int loadPos = 50;
     private final int minPos = 0;
     public static int targetPos = 250;
 
@@ -101,6 +102,10 @@ public class Lift extends Component {
     public void goToRetractPosition()
     {
         setTargetPos(retractPos);
+    }
+    public void goToLoadPosition()
+    {
+        setTargetPos(loadPos);
     }
     public void goToMinPosition() {
         setTargetPos(minPos);

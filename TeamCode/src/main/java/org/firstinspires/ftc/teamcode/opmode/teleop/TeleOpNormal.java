@@ -66,7 +66,6 @@ public class TeleOpNormal extends LinearOpMode {
                 }
             }
 
-
             if (gamepad1.triangle) {
                 bot.handlerDeploy();
             } else if (gamepad1.circle) {

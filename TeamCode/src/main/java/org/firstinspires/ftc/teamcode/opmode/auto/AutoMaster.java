@@ -21,37 +21,40 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 public abstract class AutoMaster extends LinearOpMode {
     protected Alliance alliance;
     protected StartPosition startPosition;
-    int riggingDirection;
-    int boardDirection;
+//    int riggingDirection, boardDirection;
+
 
     public static boolean loggingOn = false;
-
-    Action selectedTrajectory;
-    int targetAprilTagNumber;
-    PropPipeline propProcessor = null;
-    AprilTagProcessor aprilTagProcessor;
-    PropDirection propDirection = null;
-    ElapsedTime timer = new ElapsedTime();
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    MultipleTelemetry tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+    private PropPipeline propProcessor;
+    private AprilTagProcessor aprilTagProcessor;
+    private PropDirection propDirection;
+    private ElapsedTime timer = new ElapsedTime();
 
     protected AutoBot bot;
     protected VisionSensor visionSensor;
-    protected TrajectorySequence leftTrajectorySequence;
-    protected TrajectorySequence centerTrajectorySequence;
-    protected TrajectorySequence rightTrajectorySequence;
-    protected TrajectorySequence selectedTrajectorySequence;
+    protected TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, rightSpikePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
-    protected AutoConstants autoConstants = new AutoConstants();
+    protected AutoConstants autoConstants;
+    protected MultipleTelemetry multipleTelemetry;
 
-    protected AutoMaster(Alliance alliance, StartPosition startPosition) {
-        this.alliance = alliance;
-        this.startPosition = startPosition;
+    protected AutoMaster() {
+
     }
 
     @Override
     public void runOpMode() {
-        bot = new AutoBot(hardwareMap, telemetry, startPose, loggingOn);
+        autoConstants = new AutoConstants();
+        startPose = reflectY(autoConstants.NEAR_START);
+        leftSpikePose = reflectY(autoConstants.NEAR_LEFT_SPIKE);
+        rightSpikePose = reflectY(autoConstants.NEAR_RIGHT_SPIKE);
+        leftBoardPose = reflectY(autoConstants.LEFT_BACKDROP);
+        rightBoardPose = reflectY(autoConstants.RIGHT_BACKDROP);
+        centerBoardPose = reflectY(autoConstants.CENTER_BACKDROP);
+            parkPose = reflectY(autoConstants.PARK_CENTER);
+
+        multipleTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        bot = new AutoBot(hardwareMap, multipleTelemetry, startPose, loggingOn);
 
 //        visionSensor = new VisionSensor(this, alliance);
 
@@ -64,24 +67,24 @@ public abstract class AutoMaster extends LinearOpMode {
         bot.handlerRetract();
         bot.stopLoad();
         leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.INITIAL_FORWARD_DIST)
+                .forward(autoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
                 .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
                 .lineToLinearHeading(parkPose)
                 .build();
 
         rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.INITIAL_FORWARD_DIST)
+                .forward(autoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
                 .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
                 .lineToLinearHeading(parkPose)
                 .build();
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.MIDDLE_SPIKE_DISTANCE)
+                .forward(autoConstants.CENTER_SPIKE_DISTANCE)
                 .addTemporalMarker(() -> placePixelOnSpikeMark())
                 .waitSeconds(3)
-                .back(autoConstants.INITIAL_FORWARD_DIST)
+                .back(autoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
                 .addTemporalMarker(() -> placePixelOnBoard())
                 .waitSeconds(3)

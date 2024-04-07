@@ -20,11 +20,11 @@ public class Bot extends Component {
     public static boolean handlerRetracting = false;
     public static boolean dropperDeployed = false;
     private double shoulderRUpPos = 1.0;
-    private double shoulderRDownPos = 0.25;
+    private double shoulderRDownPos = 0.30;
     private double shoulderLUpPos = 1.0;
-    private double shoulderLDownPos = 0.00;
+    private double shoulderLDownPos = 0.05;
     private double wristUpPos = 0.5;
-    private double wristDownPos = 0.15;
+    private double wristDownPos = 0.1;
     private double launcherLockPos = 0.75;
     private double launcherUnlockPos = 0.25;
     private boolean loading = false;
@@ -81,8 +81,8 @@ public class Bot extends Component {
         timer.reset();
     }
 
-    private void liftMin() {
-        lift.goToMinPosition();
+    private void liftLoad() {
+        lift.goToLoadPosition();
     }
 
     public void handlerDeploy() {
@@ -116,14 +116,12 @@ public class Bot extends Component {
             lift.manualUp(power);
         }
     }
-
     public void liftManualDown(double power) {
         if (handlerDeployed) {
             liftAuto = false;
             lift.manualDown(power);
         }
     }
-
     public void liftStop() {
         if (!liftAuto) {
             lift.stop();
@@ -151,12 +149,10 @@ public class Bot extends Component {
     {
         intake.forward();
     }
-
     public void intakeReverse()
     {
         intake.reverse();
     }
-
     public void intakeOff()
     {
         intake.stop();
@@ -184,7 +180,7 @@ public class Bot extends Component {
                     dropperRetract();
                     dropperDeployed = false;
                 } else if (timer.milliseconds() > 250) {
-                    liftMin();
+                    liftLoad();
                     handlerDeployed = false;
                     handlerRetracting = false;
                 }
