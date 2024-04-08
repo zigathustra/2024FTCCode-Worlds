@@ -8,23 +8,20 @@ import org.firstinspires.ftc.teamcode.common.enums.StartPosition;
 
 public class NearBoard extends AutoMaster {
     protected NearBoard(Alliance alliance, ParkPosition parkPosition) {
-/*        if (alliance == alliance.RED) {
-            startPose = reflectY(autoConstants.NEAR_START);
-            leftSpikePose = reflectY(autoConstants.NEAR_LEFT_SPIKE);
-            rightSpikePose = reflectY(autoConstants.NEAR_RIGHT_SPIKE);
-            leftBoardPose = reflectY(autoConstants.LEFT_BACKDROP);
-            rightBoardPose = reflectY(autoConstants.RIGHT_BACKDROP);
-            centerBoardPose = reflectY(autoConstants.CENTER_BACKDROP);
+        if (alliance == alliance.RED) {
+            startPose = reflectY(AutoConstants.NEAR_START);
+            leftSpikePose = reflectY(AutoConstants.NEAR_LEFT_SPIKE);
+            rightSpikePose = reflectY(AutoConstants.NEAR_RIGHT_SPIKE);
+            leftBoardPose = reflectY(AutoConstants.LEFT_BACKDROP);
+            rightBoardPose = reflectY(AutoConstants.RIGHT_BACKDROP);
+            centerBoardPose = reflectY(AutoConstants.CENTER_BACKDROP);
             if (parkPosition == ParkPosition.CORNER)
-                parkPose = reflectY(autoConstants.PARK_CORNER);
+                parkPose = reflectY(AutoConstants.PARK_CORNER);
             else if (parkPosition == ParkPosition.CENTER) {
-                parkPose = reflectY(autoConstants.PARK_CENTER);
+                parkPose = reflectY(AutoConstants.PARK_CENTER);
             } else {
-                parkPose = reflectY(autoConstants.PARK_BOARD);
+                parkPose = reflectY(AutoConstants.PARK_BOARD);
             }
         }
-    }
-
- */
     }
 }

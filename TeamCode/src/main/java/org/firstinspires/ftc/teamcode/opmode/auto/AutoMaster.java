@@ -34,7 +34,6 @@ public abstract class AutoMaster extends LinearOpMode {
     protected VisionSensor visionSensor;
     protected TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, rightSpikePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
-    protected AutoConstants autoConstants;
     protected MultipleTelemetry multipleTelemetry;
 
     protected AutoMaster() {
@@ -43,14 +42,6 @@ public abstract class AutoMaster extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        autoConstants = new AutoConstants();
-        startPose = reflectY(autoConstants.NEAR_START);
-        leftSpikePose = reflectY(autoConstants.NEAR_LEFT_SPIKE);
-        rightSpikePose = reflectY(autoConstants.NEAR_RIGHT_SPIKE);
-        leftBoardPose = reflectY(autoConstants.LEFT_BACKDROP);
-        rightBoardPose = reflectY(autoConstants.RIGHT_BACKDROP);
-        centerBoardPose = reflectY(autoConstants.CENTER_BACKDROP);
-            parkPose = reflectY(autoConstants.PARK_CENTER);
 
         multipleTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -67,24 +58,24 @@ public abstract class AutoMaster extends LinearOpMode {
         bot.handlerRetract();
         bot.stopLoad();
         leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.INITIAL_FORWARD_DISTANCE)
+                .forward(AutoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
                 .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
                 .lineToLinearHeading(parkPose)
                 .build();
 
         rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.INITIAL_FORWARD_DISTANCE)
+                .forward(AutoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
                 .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
                 .lineToLinearHeading(parkPose)
                 .build();
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(autoConstants.CENTER_SPIKE_DISTANCE)
+                .forward(AutoConstants.CENTER_SPIKE_DISTANCE)
                 .addTemporalMarker(() -> placePixelOnSpikeMark())
                 .waitSeconds(3)
-                .back(autoConstants.INITIAL_FORWARD_DISTANCE)
+                .back(AutoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
                 .addTemporalMarker(() -> placePixelOnBoard())
                 .waitSeconds(3)
