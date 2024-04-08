@@ -22,6 +22,21 @@ public class NearBoard extends AutoMaster {
             } else {
                 parkPose = reflectY(AutoConstants.PARK_BOARD);
             }
+        } else
+        {
+            startPose = AutoConstants.NEAR_START;
+            leftSpikePose = AutoConstants.NEAR_LEFT_SPIKE;
+            rightSpikePose = AutoConstants.NEAR_RIGHT_SPIKE;
+            leftBoardPose = AutoConstants.LEFT_BACKDROP;
+            rightBoardPose = AutoConstants.RIGHT_BACKDROP;
+            centerBoardPose = AutoConstants.CENTER_BACKDROP;
+            if (parkPosition == ParkPosition.CORNER)
+                parkPose = AutoConstants.PARK_CORNER;
+            else if (parkPosition == ParkPosition.CENTER) {
+                parkPose = AutoConstants.PARK_CENTER;
+            } else {
+                parkPose = AutoConstants.PARK_BOARD;
+            }
         }
     }
 }

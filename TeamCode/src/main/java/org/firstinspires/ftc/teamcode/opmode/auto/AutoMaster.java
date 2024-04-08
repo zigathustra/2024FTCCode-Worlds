@@ -19,20 +19,17 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public abstract class AutoMaster extends LinearOpMode {
-    protected Alliance alliance;
-    protected StartPosition startPosition;
-//    int riggingDirection, boardDirection;
-
 
     public static boolean loggingOn = false;
-    private PropPipeline propProcessor;
     private AprilTagProcessor aprilTagProcessor;
     private PropDirection propDirection;
     private ElapsedTime timer = new ElapsedTime();
 
     protected AutoBot bot;
+    private PropPipeline propProcessor;
+
     protected VisionSensor visionSensor;
-    protected TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
+    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, rightSpikePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
     protected MultipleTelemetry multipleTelemetry;
 
@@ -49,14 +46,11 @@ public abstract class AutoMaster extends LinearOpMode {
 
 //        visionSensor = new VisionSensor(this, alliance);
 
-//        riggingDirection = determineRiggingDirection();
-
-//        boardDirection = determineBoardDirection(riggingDirection);
-
 //        visionSensor.goToPropDetectionMode();
 
-        bot.handlerRetract();
-        bot.stopLoad();
+//        bot.handlerRetract();
+///        bot.stopLoad();
+
         leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                 .forward(AutoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
@@ -72,13 +66,14 @@ public abstract class AutoMaster extends LinearOpMode {
                 .build();
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
+//                .addTemporalMarker(()->bot.handlerDeploy())
                 .forward(AutoConstants.CENTER_SPIKE_DISTANCE)
-                .addTemporalMarker(() -> placePixelOnSpikeMark())
-                .waitSeconds(3)
+//                .addTemporalMarker(() -> placePixelOnSpikeMark())
+                .waitSeconds(1)
                 .back(AutoConstants.INITIAL_FORWARD_DISTANCE)
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-                .addTemporalMarker(() -> placePixelOnBoard())
-                .waitSeconds(3)
+//                .addTemporalMarker(() -> placePixelOnBoard())
+                .waitSeconds(1)
                 .splineToLinearHeading(parkPose, parkPose.getHeading())
                 .build();
 
@@ -92,10 +87,15 @@ public abstract class AutoMaster extends LinearOpMode {
 
             sleep(50);
         }
-        if (!isStopRequested()) {
+        if (!isStopRequested() && isStarted()) {
             //           visionSensor.goToNoSensingMode();
-            selectedTrajectorySequence = selectTrajectorySequence();
-
+              bot.drivetrain().followTrajectorySequenceAsync(selectedTrajectorySequence);
+//            bot.drivetrain().followTrajectorySequence(selectTrajectorySequence());
+//            bot.handlerDeploy();
+        }
+        while (!isStopRequested() && opModeIsActive())
+        {
+            bot.drivetrain().update();
         }
     }
 
@@ -107,8 +107,10 @@ public abstract class AutoMaster extends LinearOpMode {
         } else {
             return centerTrajectorySequence;
         }
+
     }
     protected void placePixelOnSpikeMark() {
+        bot.handlerDeploy();
         bot.dropPixel();
     }
 

@@ -27,8 +27,7 @@ public class Lift extends Component {
     private final int deployPos = 1000;
     private final int loadPos = 50;
     private final int minPos = 0;
-    public static int targetPos = 250;
-
+    public static int targetPos;
     private int autoOffset = 0;
     private int manualOffset = 25;
     private final double defaultMaxPower = 1.0;
@@ -59,12 +58,12 @@ public class Lift extends Component {
         liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        setTargetPos(retractPos);
+        targetPos = 0;
     }
 
     public void update() {
-        pidfL.setPIDF(kP,kI,kD,kF);
-        pidfR.setPIDF(kP,kI,kD,kF);
+ //       pidfL.setPIDF(kP,kI,kD,kF);
+ //       pidfR.setPIDF(kP,kI,kD,kF);
 
         setPIDFMotorPower();
         if (loggingOn) {
@@ -93,7 +92,6 @@ public class Lift extends Component {
             stop();
         }
     }
-
 
     public void stop()
     {

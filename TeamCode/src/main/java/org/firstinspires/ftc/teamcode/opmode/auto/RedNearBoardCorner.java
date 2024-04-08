@@ -10,6 +10,5 @@ public class RedNearBoardCorner extends NearBoard {
     public RedNearBoardCorner()
     {
         super(Alliance.RED,ParkPosition.CORNER);
-
     }
 }

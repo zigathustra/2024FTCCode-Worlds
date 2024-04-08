@@ -24,8 +24,8 @@ public class SingleServoTest extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(ServoImplEx.class, "wrist");
-        servo.setDirection(Servo.Direction.REVERSE);
+        servo = hardwareMap.get(ServoImplEx.class, "shoulderR");
+        servo.setDirection(Servo.Direction.FORWARD);
 
 
         // Wait for the start button
@@ -64,7 +64,7 @@ public class SingleServoTest extends LinearOpMode {
             }
 
             // Display the current value
-            telemetry.addData("Right Servo Position", "%5.2f", servo.getPosition());
+            telemetry.addData("Servo Position", "%5.2f", servo.getPosition());
 
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();

@@ -32,8 +32,8 @@ public class TeleOpNormal extends LinearOpMode {
 
         bot = new TeleopBot(hardwareMap, telemetry, loggingOn);
         waitForStart();
-
-        while (opModeIsActive()) {
+        bot.handlerRetract();
+        while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.dpad_up) {
                 bot.creepDirection(1.0, 0.0, 0.0);
             } else if (gamepad1.dpad_down) {

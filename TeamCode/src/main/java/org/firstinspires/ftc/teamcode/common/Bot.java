@@ -15,16 +15,17 @@ public class Bot extends Component {
     private Servo wrist = null;
     private Dropper dropper = null;
     private Servo launcher = null;
-    public static boolean handlerDeployed = false;
+    public static boolean handlerDeployed = true;
     public static boolean handlerDeploying = false;
     public static boolean handlerRetracting = false;
-    public static boolean dropperDeployed = false;
-    private double shoulderRUpPos = 1.0;
-    private double shoulderRDownPos = 0.30;
-    private double shoulderLUpPos = 1.0;
-    private double shoulderLDownPos = 0.05;
-    private double wristUpPos = 0.5;
-    private double wristDownPos = 0.1;
+    public static boolean dropperDeployed = true;
+    private double shoulderRUpPos = 0.9;
+    private double shoulderRDownPos = 0.375;
+    private double shoulderLUpPos = 0.9;
+    private double shoulderLDownPos = 0.375;
+    private double wristUpPos = 0.9;
+    private double wristDownPos = 0.125;
+    private double wristLoadPos = wristDownPos;
     private double launcherLockPos = 0.75;
     private double launcherUnlockPos = 0.25;
     private boolean loading = false;
@@ -51,10 +52,11 @@ public class Bot extends Component {
 
         // Dropper
         dropper = new Dropper(hardwareMap, telemetry, loggingOn);
-        loading = false;
-        dropperDeployed = true;
+
         handlerDeployed = true;
-        handlerRetract();
+        handlerDeploying = false;
+        handlerRetracting = false;
+        dropperDeployed = true;
 
         // Launcher
         launcher = hardwareMap.get(Servo.class, "launcher");
@@ -81,10 +83,10 @@ public class Bot extends Component {
         timer.reset();
     }
 
-    private void liftLoad() {
+    private void liftLoad()
+    {
         lift.goToLoadPosition();
     }
-
     public void handlerDeploy() {
         lift.goToDeployPosition();
         handlerDeploying = true;
@@ -98,6 +100,7 @@ public class Bot extends Component {
 
     public void load() {
         if (!handlerDeployed) {
+            wrist.setPosition(wristLoadPos);
             dropper.load();
             intakeDeploy();
             loading = true;
