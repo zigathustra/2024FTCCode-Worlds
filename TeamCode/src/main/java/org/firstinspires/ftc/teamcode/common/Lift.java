@@ -24,16 +24,16 @@ public class Lift extends Component {
     private final double maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
     private final int maxPos = 2000;
     private final int retractPos = 800;
-    private final int deploy1Pos = 1000;
-    private final int groundPlacementPos = 350;
+    private final int cruisePos = 800;
+    private final int deploy1Pos = 650;
+    private final int groundPlacementPos = 175;
     private final int loadPos = 50;
     private final int minPos = 0;
     public static int targetPos;
     private int autoOffset = 0;
     private int manualOffset = 25;
-    private final double defaultMaxPower = 1.0;
+    private final double defaultMaxPower = 0.90;
     private double maxPower = defaultMaxPower;
-//    private final int increment = 50;
     public static int currentPos;
 
 
@@ -113,7 +113,10 @@ public class Lift extends Component {
     {
         setTargetPos(deploy1Pos);
     }
-
+    public void goToCruisePosition()
+    {
+        setTargetPos(cruisePos);
+    }
     public void goToGroundPlacementPosition(){setTargetPos(groundPlacementPos);}
 
     private boolean atTop(int offset) {

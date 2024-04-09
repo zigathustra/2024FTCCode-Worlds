@@ -21,13 +21,13 @@ public class Bot extends Component {
     public static boolean dropperDeployed = true;
     private double shoulderRDeploy1Pos = 0.9;
     private double shoulderRLoadPos = 0.375;
-    private double shouldRGroundPos = 0.5;
+    private double shouldRGroundPos = 0.75;
     private double shoulderLDeploy1Pos = 0.9;
     private double shoulderLLoadPos = 0.375;
-    private double shoulderLGroundPos = 0.5;
-    private double wristDeploy1Pos = 0.9;
+    private double shoulderLGroundPos = 0.75;
+    private double wristDeploy1Pos = 0.8;
     private double wristLoadPos = 0.125;
-    private double wristGroundPos = 0.5;
+    private double wristGroundPos = 0.0;
     private double launcherLockPos = 0.75;
     private double launcherUnlockPos = 0.25;
     private boolean loading = false;
@@ -39,7 +39,7 @@ public class Bot extends Component {
         intake = new Intake(hardwareMap, telemetry, loggingOn);
 
         // Lift
-        lift = new Lift(hardwareMap, telemetry, true);
+        lift = new Lift(hardwareMap, telemetry, loggingOn);
         liftAuto = true;
 
         // Shoulder
@@ -85,12 +85,27 @@ public class Bot extends Component {
         timer.reset();
     }
 
-    private void liftLoad()
-    {
+    public void liftToCruisePosition() {
+        lift.goToCruisePosition();
+    }
+
+    public void liftToMinPosition() {
+        lift.goToMinPosition();
+    }
+    private void liftLoad() {
         lift.goToLoadPosition();
     }
 
+    public void tuckDropper()
+    {
+        wrist.setPosition(wristLoadPos);
+        shoulderL.setPosition(shoulderLDeploy1Pos);
+        shoulderR.setPosition(shoulderLDeploy1Pos);
+        lift.goToMinPosition();
+    }
     public void handlerDeployLevel1() {
+        dropperDeployed = false;
+        handlerDeployed = false;
         lift.goToDeploy1Position();
         handlerDeploying = true;
     }
@@ -101,12 +116,13 @@ public class Bot extends Component {
         shoulderR.setPosition(shoulderRDeploy1Pos);
     }
 
-    public void goToGroundPlacementPosition()
-    {
+    public void goToGroundPlacementPosition() {
         wrist.setPosition(wristGroundPos);
         shoulderL.setPosition(shoulderLGroundPos);
         shoulderR.setPosition(shouldRGroundPos);
+        lift.goToGroundPlacementPosition();
     }
+
     public void load() {
         if (!handlerDeployed) {
             wrist.setPosition(wristLoadPos);
@@ -128,12 +144,14 @@ public class Bot extends Component {
             lift.manualUp(power);
         }
     }
+
     public void liftManualDown(double power) {
         if (handlerDeployed) {
             liftAuto = false;
             lift.manualDown(power);
         }
     }
+
     public void liftStop() {
         if (!liftAuto) {
             lift.stop();
@@ -149,24 +167,23 @@ public class Bot extends Component {
         launcher.setPosition(launcherUnlockPos);
     }
 
-    public void intakeDeploy()
-    {
+    public void intakeDeploy() {
         intake.deploy();
     }
-    public void intakeRetract()
-    {
+
+    public void intakeRetract() {
         intake.retract();
     }
-    public void intakeForward()
-    {
+
+    public void intakeForward() {
         intake.forward();
     }
-    public void intakeReverse()
-    {
+
+    public void intakeReverse() {
         intake.reverse();
     }
-    public void intakeOff()
-    {
+
+    public void intakeOff() {
         intake.stop();
     }
 

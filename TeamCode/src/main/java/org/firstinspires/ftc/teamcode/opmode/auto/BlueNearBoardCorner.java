@@ -1,0 +1,14 @@
+package org.firstinspires.ftc.teamcode.opmode.auto;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.common.enums.Alliance;
+import org.firstinspires.ftc.teamcode.common.enums.ParkPosition;
+
+@Autonomous(name = "BlueNearBoard", group = "Auto")
+public class BlueNearBoardCorner extends NearBoard {
+    public BlueNearBoardCorner()
+    {
+        super(Alliance.BLUE,ParkPosition.CORNER);
+    }
+}

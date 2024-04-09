@@ -45,7 +45,7 @@ public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap,telemetry,new Pose2d(0,0,0), false);
+        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry,false);
 
 
         if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {

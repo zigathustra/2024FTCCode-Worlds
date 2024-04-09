@@ -29,12 +29,12 @@ public abstract class AutoMaster extends LinearOpMode {
     private PropPipeline propProcessor;
 
     protected VisionSensor visionSensor;
-    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
-    protected Pose2d startPose, leftSpikePose, rightSpikePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
+    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence;
+    protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
     protected MultipleTelemetry multipleTelemetry;
 
-    protected AutoMaster() {
-
+    protected AutoMaster()
+    {
     }
 
     @Override
@@ -42,7 +42,8 @@ public abstract class AutoMaster extends LinearOpMode {
 
         multipleTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        bot = new AutoBot(hardwareMap, multipleTelemetry, startPose, loggingOn);
+        bot = new AutoBot(hardwareMap, multipleTelemetry, loggingOn);
+        bot.drivetrain().setPoseEstimate(startPose);
 
 //        visionSensor = new VisionSensor(this, alliance);
 
@@ -52,30 +53,50 @@ public abstract class AutoMaster extends LinearOpMode {
 ///        bot.stopLoad();
 
         leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(AutoConstants.INITIAL_FORWARD_DISTANCE)
-                .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
-                .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
-                .lineToLinearHeading(parkPose)
-                .build();
-
-        rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                .forward(AutoConstants.INITIAL_FORWARD_DISTANCE)
-                .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
-                .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
+//                .forward(AutoConstants.initialForwardDistance)
+//                .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
                 .lineToLinearHeading(parkPose)
                 .build();
 
         centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-//                .addTemporalMarker(()->bot.handlerDeploy())
-                .forward(AutoConstants.CENTER_SPIKE_DISTANCE)
-//                .addTemporalMarker(() -> placePixelOnSpikeMark())
-                .waitSeconds(1)
-                .back(AutoConstants.INITIAL_FORWARD_DISTANCE)
+                .addTemporalMarker(() -> bot.handlerDeployLevel1())
                 .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-//                .addTemporalMarker(() -> placePixelOnBoard())
-                .waitSeconds(1)
+                .addTemporalMarker(() -> bot.dropPixel())
+                .waitSeconds(0.5)
+                .addTemporalMarker(() -> bot.liftToCruisePosition())
+                .waitSeconds(0.5)
+                .back(AutoConstants.boardApproachOffset)
+                .splineToLinearHeading(centerSpikePose, centerSpikePose.getHeading())
+                .addTemporalMarker(() -> bot.goToGroundPlacementPosition())
+                .waitSeconds(0.75)
+                .addTemporalMarker(() -> bot.dropPixel())
+                .waitSeconds(0.75)
+                .back(4)
+                .splineToLinearHeading(escapePose, escapePose.getHeading())
                 .splineToLinearHeading(parkPose, parkPose.getHeading())
+                .addTemporalMarker(() -> bot.tuckDropper())
+                .waitSeconds(3)
                 .build();
+
+        rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
+                .addTemporalMarker(() -> bot.handlerDeployLevel1())
+                .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
+                .addTemporalMarker(() -> bot.dropPixel())
+                .waitSeconds(0.5)
+                .back(4)
+                .addTemporalMarker(() -> bot.liftToCruisePosition())
+                .waitSeconds(0.5)
+                .back(AutoConstants.boardApproachOffset)
+                .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
+                .addTemporalMarker(() -> bot.goToGroundPlacementPosition())
+                .waitSeconds(0.75)
+                .addTemporalMarker(() -> bot.dropPixel())
+                .waitSeconds(0.75)
+                .splineToLinearHeading(parkPose, parkPose.getHeading())
+                .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> bot.tuckDropper())
+                .waitSeconds(3)
+                .build();
+
 
         sleep(500);
         while (!isStarted() && !isStopRequested()) {
@@ -87,15 +108,13 @@ public abstract class AutoMaster extends LinearOpMode {
 
             sleep(50);
         }
-        if (!isStopRequested() && isStarted()) {
-            //           visionSensor.goToNoSensingMode();
-              bot.drivetrain().followTrajectorySequenceAsync(selectedTrajectorySequence);
-//            bot.drivetrain().followTrajectorySequence(selectTrajectorySequence());
-              bot.handlerDeployLevel1();
-        }
-        while (!isStopRequested() && opModeIsActive())
-        {
+        //           visionSensor.goToNoSensingMode();
+
+        bot.drivetrain().followTrajectorySequenceAsync(centerTrajectorySequence);
+
+        while (!isStopRequested() && opModeIsActive()) {
             bot.update();
+            bot.drivetrain().update();
         }
     }
 
@@ -108,10 +127,6 @@ public abstract class AutoMaster extends LinearOpMode {
             return centerTrajectorySequence;
         }
 
-    }
-    protected void placePixelOnSpikeMark() {
-//        bot.handlerDeployLevel1();
-//        bot.dropPixel();
     }
 
     protected void placePixelOnBoard() {

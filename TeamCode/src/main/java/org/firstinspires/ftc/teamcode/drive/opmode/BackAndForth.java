@@ -32,7 +32,7 @@ public class BackAndForth extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry, new Pose2d(0,0,0), false);
+        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry, false);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)

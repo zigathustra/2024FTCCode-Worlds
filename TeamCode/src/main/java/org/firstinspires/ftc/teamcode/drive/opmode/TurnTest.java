@@ -13,11 +13,11 @@ import org.firstinspires.ftc.teamcode.common.AutoDrivetrain;
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
-    public static double ANGLE = 90; // deg
+    public static double ANGLE = 180; // deg
 
     @Override
     public void runOpMode() throws InterruptedException {
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap,telemetry,new Pose2d(0,0,0), false);
+        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap,telemetry, false);
 
 
         waitForStart();
