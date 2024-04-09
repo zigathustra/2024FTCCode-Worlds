@@ -91,11 +91,11 @@ public abstract class AutoMaster extends LinearOpMode {
             //           visionSensor.goToNoSensingMode();
               bot.drivetrain().followTrajectorySequenceAsync(selectedTrajectorySequence);
 //            bot.drivetrain().followTrajectorySequence(selectTrajectorySequence());
-//            bot.handlerDeploy();
+              bot.handlerDeployLevel1();
         }
         while (!isStopRequested() && opModeIsActive())
         {
-            bot.drivetrain().update();
+            bot.update();
         }
     }
 
@@ -110,8 +110,8 @@ public abstract class AutoMaster extends LinearOpMode {
 
     }
     protected void placePixelOnSpikeMark() {
-        bot.handlerDeploy();
-        bot.dropPixel();
+//        bot.handlerDeployLevel1();
+//        bot.dropPixel();
     }
 
     protected void placePixelOnBoard() {

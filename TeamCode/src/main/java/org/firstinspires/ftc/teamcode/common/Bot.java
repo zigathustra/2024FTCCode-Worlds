@@ -19,13 +19,15 @@ public class Bot extends Component {
     public static boolean handlerDeploying = false;
     public static boolean handlerRetracting = false;
     public static boolean dropperDeployed = true;
-    private double shoulderRUpPos = 0.9;
-    private double shoulderRDownPos = 0.375;
-    private double shoulderLUpPos = 0.9;
-    private double shoulderLDownPos = 0.375;
-    private double wristUpPos = 0.9;
-    private double wristDownPos = 0.125;
-    private double wristLoadPos = wristDownPos;
+    private double shoulderRDeploy1Pos = 0.9;
+    private double shoulderRLoadPos = 0.375;
+    private double shouldRGroundPos = 0.5;
+    private double shoulderLDeploy1Pos = 0.9;
+    private double shoulderLLoadPos = 0.375;
+    private double shoulderLGroundPos = 0.5;
+    private double wristDeploy1Pos = 0.9;
+    private double wristLoadPos = 0.125;
+    private double wristGroundPos = 0.5;
     private double launcherLockPos = 0.75;
     private double launcherUnlockPos = 0.25;
     private boolean loading = false;
@@ -77,9 +79,9 @@ public class Bot extends Component {
     }
 
     private void dropperRetract() {
-        wrist.setPosition(wristDownPos);
-        shoulderL.setPosition(shoulderLDownPos);
-        shoulderR.setPosition(shoulderRDownPos);
+        wrist.setPosition(wristLoadPos);
+        shoulderL.setPosition(shoulderLLoadPos);
+        shoulderR.setPosition(shoulderRLoadPos);
         timer.reset();
     }
 
@@ -87,17 +89,24 @@ public class Bot extends Component {
     {
         lift.goToLoadPosition();
     }
-    public void handlerDeploy() {
-        lift.goToDeployPosition();
+
+    public void handlerDeployLevel1() {
+        lift.goToDeploy1Position();
         handlerDeploying = true;
     }
 
     private void dropperDeploy() {
-        wrist.setPosition(wristUpPos);
-        shoulderL.setPosition(shoulderLUpPos);
-        shoulderR.setPosition(shoulderRUpPos);
+        wrist.setPosition(wristDeploy1Pos);
+        shoulderL.setPosition(shoulderLDeploy1Pos);
+        shoulderR.setPosition(shoulderRDeploy1Pos);
     }
 
+    public void goToGroundPlacementPosition()
+    {
+        wrist.setPosition(wristGroundPos);
+        shoulderL.setPosition(shoulderLGroundPos);
+        shoulderR.setPosition(shouldRGroundPos);
+    }
     public void load() {
         if (!handlerDeployed) {
             wrist.setPosition(wristLoadPos);

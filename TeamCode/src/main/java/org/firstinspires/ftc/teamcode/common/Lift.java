@@ -24,7 +24,8 @@ public class Lift extends Component {
     private final double maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
     private final int maxPos = 2000;
     private final int retractPos = 800;
-    private final int deployPos = 1000;
+    private final int deploy1Pos = 1000;
+    private final int groundPlacementPos = 350;
     private final int loadPos = 50;
     private final int minPos = 0;
     public static int targetPos;
@@ -108,10 +109,12 @@ public class Lift extends Component {
     public void goToMinPosition() {
         setTargetPos(minPos);
     }
-    public void goToDeployPosition()
+    public void goToDeploy1Position()
     {
-        setTargetPos(deployPos);
+        setTargetPos(deploy1Pos);
     }
+
+    public void goToGroundPlacementPosition(){setTargetPos(groundPlacementPos);}
 
     private boolean atTop(int offset) {
         if ((liftMotorL.getCurrentPosition() - offset) >= maxPos) {
@@ -158,14 +161,6 @@ public class Lift extends Component {
         }
     }
 
-    private int avgCurrentPos() {
-        int currentPosL, currentPosR = 0;
-        currentPosL = liftMotorL.getCurrentPosition();
-        currentPosR = liftMotorR.getCurrentPosition();
-        currentPos = (int) ((currentPosL + currentPosR) / 2.0);
-        return (currentPos);
-    }
-
     private void setPIDFMotorPower() {
         setLMotorPower(pidfL.calculate(liftMotorL.getCurrentPosition(), targetPos));
         setRMotorPower(pidfR.calculate(liftMotorR.getCurrentPosition(), targetPos));
@@ -180,29 +175,4 @@ public class Lift extends Component {
         telemetry.addData("Busy:  ", isBusy());
  //        telemetry.update();
     }
-    /*
-    public class LiftUp implements Action {
-        private boolean initialized = false;
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                up(maxPower);
-                initialized = true;
-            }
-
-            double pos = lift.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos < 2500.0) {
-                return true;
-            } else {
-                lift.setPower(0);
-                return false;
-            }
-        }
-    }
-    public Action liftUp() {
-        return new LiftUp();
-    }
-    */
-
 }
