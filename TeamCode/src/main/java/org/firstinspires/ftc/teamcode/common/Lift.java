@@ -27,7 +27,7 @@ public class Lift extends Component {
     private final int cruisePos = 800;
     private final int deploy1Pos = 650;
     private final int groundPlacementPos = 150;
-    private final int loadPos = 50;
+    private final int loadPos = 75;
     private final int minPos = 0;
     public static int targetPos;
     private int autoOffset = 0;
