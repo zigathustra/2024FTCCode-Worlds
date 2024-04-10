@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.common.enums.Alliance;
 import org.firstinspires.ftc.teamcode.common.enums.ParkPosition;
 
-@Autonomous(name = "\uD83D\uDD25RedNearBoardCorner", group = "Auto")
-public class RedNearBoardCorner extends NearBoard {
-    public RedNearBoardCorner()
+@Autonomous(name = "\uD83D\uDD25RedNearBoardCenter", group = "Auto")
+public class RedNearBoardCenter extends NearBoard {
+    public RedNearBoardCenter()
     {
-        super(Alliance.RED,ParkPosition.CORNER);
+        super(Alliance.RED,ParkPosition.CENTER);
     }
 }

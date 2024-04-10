@@ -20,21 +20,30 @@ public final class AutoConstants {
     public static double boardXOffset = 10.75;
     public static double boardYOffset = 25.5 + 5.25;
     public static double boardAprilTagSpacing = 6;
-    public static double boardApproachOffset = 9.5;
-    public static Pose2d blueCenterSpikePose = new Pose2d(tileSideLength + 3, maxY - tileSideLength * 1.5, Math.toRadians(223));
+    public static double boardApproachOffset = 9.25;
+    public static Pose2d blueCenterSpikePose = new Pose2d(tileSideLength + 3, maxY - 36, Math.toRadians(223));
     public static Pose2d redCenterSpikePose = reflectY(blueCenterSpikePose);
-    public static Pose2d blueRightSpikePose = new Pose2d(tileSideLength * 1.65, maxY - tileSideLength * 1.50, Math.toRadians(180));
+    public static Pose2d blueRightSpikePose = new Pose2d(37, maxY - 36, Math.toRadians(180));
     public static Pose2d redRightSpikePose = reflectY(blueRightSpikePose);
-    public static Pose2d blueEscapePose = new Pose2d(tileSideLength + 6, maxY-botFrameWidth/2 - 4.5, Math.toRadians(180));
-    public static Pose2d redEscapePose = reflectY(blueEscapePose);
+    public static Pose2d blueLeftSpikePose = new Pose2d(15.25, maxY - tileSideLength * 1.50, Math.toRadians(180));
+    public static Pose2d redLeftSpikePose = reflectY(blueLeftSpikePose);
+
     public static Pose2d blueNearStartPose = new Pose2d(tileSideLength / 2.0, maxY - botCenterOffsetFromRear, Math.toRadians(-90));
     public static Pose2d redNearStartPose = reflectY(blueNearStartPose);
-    public static Pose2d blueCenterBackdrop = new Pose2d(maxX - boardXOffset - boardApproachOffset, maxY - boardYOffset - boardAprilTagSpacing, Math.toRadians(0));
+    public static Pose2d blueCenterBackdrop = new Pose2d(maxX - boardXOffset - boardApproachOffset, maxY - boardYOffset - boardAprilTagSpacing + 0.5, Math.toRadians(0));
     public static Pose2d redCenterBackdrop = reflectY(blueCenterBackdrop);
     public static Pose2d blueRightBackdrop = new Pose2d(maxX - boardXOffset - boardApproachOffset, maxY - boardYOffset + 1.5, Math.toRadians(0));
     public static Pose2d redRightBackdrop = reflectY(blueRightBackdrop);
+    public static Pose2d blueLeftBackdrop = new Pose2d(maxX - boardXOffset - boardApproachOffset, maxY - boardYOffset - boardAprilTagSpacing*2 + 3, Math.toRadians(0));
+    public static Pose2d redLeftBackdrop = reflectY(blueLeftBackdrop);
+    public static Pose2d blueEscapeCornerPose = new Pose2d(tileSideLength + 10, maxY-botFrameWidth/2 - 4.5, Math.toRadians(180));
+    public static Pose2d redEscapeCornerPose = reflectY(blueEscapeCornerPose);
+    public static Pose2d blueEscapeCenterPose = new Pose2d(tileSideLength + 10, maxY-botFrameWidth/2 - 4.5 - 45, Math.toRadians(180));
+    public static Pose2d redEscapeCenterPose = reflectY(blueEscapeCenterPose);
     public static Pose2d blueCornerParkPose= new Pose2d(maxX - botFrameLength * 1.25, maxY-botFrameWidth/2 - 4.5, Math.toRadians(180));
     public static Pose2d redCornerParkPose = reflectY(blueCornerParkPose);
+    public static Pose2d blueCenterParkPose= new Pose2d(maxX - botFrameLength * 1.25, maxY-botFrameWidth/2 - 4.5 - 45, Math.toRadians(180));
+    public static Pose2d redCenterParkPose = reflectY(blueCenterParkPose);
 
 
     // SPIKE & BACKDROP POSITIONS
