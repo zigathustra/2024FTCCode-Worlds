@@ -32,6 +32,8 @@ public abstract class AutoMaster extends LinearOpMode {
     protected VisionSensor visionSensor;
     protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
+
+    protected Pose2d farOutsideStartPose, farMainstreetStartPose, farMainstreetEndPose;
     protected MultipleTelemetry multipleTelemetry;
 
     protected AutoMaster(StartPosition startPosition) {
@@ -69,19 +71,18 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
-                    .addTemporalMarker(() -> bot.goToGroundPlacementPosition())
-                    .waitSeconds(0.75)
+                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+                    .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
                     .back(4)
                     .lineToLinearHeading(escapePose)
                     .lineToLinearHeading(parkPose)
-                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> bot.tuckDropper())
+                    .addDisplacementMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
 
-
-            telemetry.addLine("Left traj built.");
+            telemetry.addLine("Left near traj built.");
             telemetry.update();
             centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
@@ -92,18 +93,18 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(centerSpikePose, centerSpikePose.getHeading())
-                    .addTemporalMarker(() -> bot.goToGroundPlacementPosition())
-                    .waitSeconds(0.75)
+                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+                    .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
                     .back(4)
                     .lineToLinearHeading(escapePose)
                     .lineToLinearHeading(parkPose)
-                    .addTemporalMarker(() -> bot.tuckDropper())
+                    .addDisplacementMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
 
-            telemetry.addLine("Center traj built.");
+            telemetry.addLine("Center near traj built.");
             telemetry.update();
             rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
@@ -114,24 +115,57 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
-                    .addTemporalMarker(() -> bot.goToGroundPlacementPosition())
-                    .waitSeconds(0.75)
+                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+                    .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
                     .back(4)
                     .lineToLinearHeading(escapePose)
                     .lineToLinearHeading(parkPose)
 //                    .splineToLinearHeading(parkPose, parkPose.getHeading())
-                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> bot.tuckDropper())
+                    .addDisplacementMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
-            telemetry.addLine("Right traj built.");
+            telemetry.addLine("Right near traj built.");
+            telemetry.update();
+        } else if (startPosition == StartPosition.FAR) {
+            telemetry.addLine("Building FAR trajectories.");
+            telemetry.update();
+
+            centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
+                    .splineToLinearHeading(farOutsideStartPose, farOutsideStartPose.getHeading())
+                    .lineToLinearHeading(centerSpikePose)
+                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+                    .waitSeconds(0.75)
+                    .addTemporalMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.75)
+                    .back(4)
+                    .addDisplacementMarker(() -> bot.handlerRetract())
+                    .lineToLinearHeading(farOutsideStartPose)
+                    .lineToLinearHeading(farMainstreetStartPose)
+                    .lineToLinearHeading(farMainstreetEndPose)
+                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
+                    .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
+                    .addDisplacementMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(() -> bot.liftToCruisePosition())
+                    .waitSeconds(0.5)
+                    .back(AutoConstants.boardApproachOffset)
+                    .lineToLinearHeading(escapePose)
+                    .lineToLinearHeading(parkPose)
+                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .waitSeconds(3)
+                    .build();
+
+            telemetry.addLine("Center traj built.");
             telemetry.update();
 
         }
+        /*
         assert (leftTrajectorySequence != null);
         assert (centerTrajectorySequence != null);
         assert (rightTrajectorySequence != null);
+         */
         sleep(500);
         telemetry.addLine("Entering prop detection loop.");
         telemetry.update();
@@ -147,7 +181,7 @@ public abstract class AutoMaster extends LinearOpMode {
         }
         //           visionSensor.goToNoSensingMode();
 
-        bot.drivetrain().followTrajectorySequenceAsync(leftTrajectorySequence);
+        bot.drivetrain().followTrajectorySequenceAsync(rightTrajectorySequence);
 
         while (!isStopRequested() && opModeIsActive()) {
             bot.update();

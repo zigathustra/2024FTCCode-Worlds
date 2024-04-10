@@ -1,22 +1,24 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import static org.firstinspires.ftc.teamcode.opmode.auto.AutoConstants.*;
 
 import org.firstinspires.ftc.teamcode.common.enums.Alliance;
 import org.firstinspires.ftc.teamcode.common.enums.ParkPosition;
 import org.firstinspires.ftc.teamcode.common.enums.StartPosition;
 
-public class NearBoard extends AutoMaster {
-    protected NearBoard(Alliance alliance, ParkPosition parkPosition) {
-        super(StartPosition.NEAR);
+public class FarBoard extends AutoMaster {
+    protected FarBoard(Alliance alliance, ParkPosition parkPosition) {
+        super(StartPosition.FAR);
         if (alliance == alliance.RED) {
-            startPose = AutoConstants.redNearStartPose;
-            leftSpikePose = AutoConstants.redNearLeftSpikePose;
-            centerSpikePose = AutoConstants.redNearCenterSpikePose;
-            rightSpikePose = AutoConstants.redNearRightSpikePose;
+            startPose = AutoConstants.redFarStartPose;
+            leftSpikePose = AutoConstants.redFarLeftSpikePose;
+            centerSpikePose = AutoConstants.redFarCenterSpikePose;
+            rightSpikePose = AutoConstants.redFarRightSpikePose;
             leftBoardPose = AutoConstants.redLeftBackdrop;
             rightBoardPose = AutoConstants.redRightBackdrop;
             centerBoardPose = AutoConstants.redCenterBackdrop;
+            farOutsideStartPose = AutoConstants.redFarOutsideStartPose;
+            farMainstreetStartPose = AutoConstants.redFarMainstreetStartPose;
+            farMainstreetEndPose = AutoConstants.redFarMainstreetEndPose;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.redNearEscapeCornerPose;
                 parkPose = AutoConstants.redCornerParkPose;
@@ -26,14 +28,16 @@ public class NearBoard extends AutoMaster {
                 parkPose = AutoConstants.redCenterParkPose;
             }
         } else {
-            startPose = AutoConstants.blueNearStartPose;
-            leftSpikePose = AutoConstants.blueNearLeftSpikePose;
-            centerSpikePose = AutoConstants.blueNearCenterSpikePose;
-            rightSpikePose = AutoConstants.blueNearRightSpikePose;
+            startPose = AutoConstants.blueFarStartPose;
+            leftSpikePose = AutoConstants.blueFarLeftSpikePose;
+            centerSpikePose = AutoConstants.blueFarCenterSpikePose;
+            rightSpikePose = AutoConstants.blueFarRightSpikePose;
             leftBoardPose = AutoConstants.blueLeftBackdrop;
             rightBoardPose = AutoConstants.blueRightBackdrop;
             centerBoardPose = AutoConstants.blueCenterBackdrop;
-            parkPose = AutoConstants.blueCornerParkPose;
+            farOutsideStartPose = AutoConstants.blueFarOutsideStartPose;
+            farMainstreetStartPose = AutoConstants.blueFarMainstreetStartPose;
+            farMainstreetEndPose = AutoConstants.blueFarMainstreetEndPose;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.blueNearEscapeCornerPose;
                 parkPose = AutoConstants.blueCornerParkPose;
