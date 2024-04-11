@@ -116,10 +116,13 @@ public class Bot extends Component {
         shoulderR.setPosition(shoulderRDeploy1Pos);
     }
 
-    public void goToGroundPlacementPosition() {
+    public void dropperToGroundPlacementPosition() {
         wrist.setPosition(wristGroundPos);
         shoulderL.setPosition(shoulderLGroundPos);
         shoulderR.setPosition(shouldRGroundPos);
+    }
+    public void liftToGroundPlacementPosition()
+    {
         lift.goToGroundPlacementPosition();
     }
 

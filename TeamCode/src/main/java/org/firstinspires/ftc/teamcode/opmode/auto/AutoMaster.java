@@ -71,7 +71,7 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(leftSpikePose, leftSpikePose.getHeading())
-                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+//                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
                     .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
@@ -93,7 +93,7 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(centerSpikePose, centerSpikePose.getHeading())
-                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+//                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
                     .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
@@ -115,7 +115,7 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(AutoConstants.boardApproachOffset)
                     .splineToLinearHeading(rightSpikePose, rightSpikePose.getHeading())
-                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
+//                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
                     .waitSeconds(0.25)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.75)
@@ -133,20 +133,25 @@ public abstract class AutoMaster extends LinearOpMode {
             telemetry.update();
 
             centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
-                    .splineToLinearHeading(farOutsideStartPose, farOutsideStartPose.getHeading())
+                    .addTemporalMarker(() -> bot.handlerDeployLevel1())
+                    .lineToLinearHeading(farOutsideStartPose)
                     .lineToLinearHeading(centerSpikePose)
-                    .UNSTABLE_addDisplacementMarkerOffset(-6, () -> bot.goToGroundPlacementPosition())
-                    .waitSeconds(0.75)
+                    .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
+                    .waitSeconds(0.50)
+                    .addTemporalMarker(() -> bot.liftToGroundPlacementPosition())
+                    .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
-                    .waitSeconds(0.75)
+                    .waitSeconds(0.5)
                     .back(4)
                     .addDisplacementMarker(() -> bot.handlerRetract())
-                    .lineToLinearHeading(farOutsideStartPose)
+                    .waitSeconds(0.5)
                     .lineToLinearHeading(farMainstreetStartPose)
-                    .lineToLinearHeading(farMainstreetEndPose)
+                    .turn(Math.toRadians(-1.61))
+                    .addDisplacementMarker(()->bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
                     .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-                    .addDisplacementMarker(() -> bot.dropPixel())
+                    .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
                     .addTemporalMarker(() -> bot.liftToCruisePosition())
                     .waitSeconds(0.5)
@@ -173,7 +178,7 @@ public abstract class AutoMaster extends LinearOpMode {
         while (!isStarted() && !isStopRequested()) {
 
             //           propDirection = visionSensor.getPropDirection();
-            propDirection = PropDirection.RIGHT;
+            propDirection = PropDirection.CENTER;
             telemetry.addData("Prop Position: ", propDirection);
             telemetry.update();
 
@@ -181,7 +186,7 @@ public abstract class AutoMaster extends LinearOpMode {
         }
         //           visionSensor.goToNoSensingMode();
 
-        bot.drivetrain().followTrajectorySequenceAsync(rightTrajectorySequence);
+        bot.drivetrain().followTrajectorySequenceAsync(centerTrajectorySequence);
 
         while (!isStopRequested() && opModeIsActive()) {
             bot.update();
@@ -199,7 +204,6 @@ public abstract class AutoMaster extends LinearOpMode {
         }
 
     }
-
     protected void placePixelOnBoard() {
         bot.dropPixel();
     }

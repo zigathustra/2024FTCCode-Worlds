@@ -87,6 +87,9 @@ public class TeleOpNormal extends LinearOpMode {
                 bot.intakeForward();
             } else if (gamepad1.share) {
                 bot.intakeOff();
+            } else if(gamepad1.x)
+            {
+                bot.intakeReverse();
             }
             bot.update();
         }
