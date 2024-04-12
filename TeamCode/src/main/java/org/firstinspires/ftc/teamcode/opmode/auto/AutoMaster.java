@@ -30,7 +30,7 @@ public abstract class AutoMaster extends LinearOpMode {
 
     private StartPosition startPosition;
     protected VisionSensor visionSensor;
-    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence;
+    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
 
     protected Pose2d farOutsideStartPose, farMainstreetStartPose, farMainstreetEndPose;
@@ -52,12 +52,9 @@ public abstract class AutoMaster extends LinearOpMode {
         telemetry.addLine("Bot created.");
         telemetry.update();
 
-//        visionSensor = new VisionSensor(this, alliance);
+        visionSensor = new VisionSensor(this);
 
-//        visionSensor.goToPropDetectionMode();
-
-//        bot.handlerRetract();
-///        bot.stopLoad();
+        visionSensor.goToPropDetectionMode();
 
         if (startPosition == StartPosition.NEAR) {
             telemetry.addLine("Building NEAR trajectories.");
@@ -147,7 +144,7 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.5)
                     .lineToLinearHeading(farMainstreetStartPose)
                     .turn(Math.toRadians(-1.61))
-                    .addDisplacementMarker(()->bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
                     .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
@@ -177,16 +174,17 @@ public abstract class AutoMaster extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested()) {
 
-            //           propDirection = visionSensor.getPropDirection();
-            propDirection = PropDirection.CENTER;
+            propDirection = visionSensor.getPropDirection();
             telemetry.addData("Prop Position: ", propDirection);
             telemetry.update();
 
             sleep(50);
         }
-        //           visionSensor.goToNoSensingMode();
+        visionSensor.goToNoSensingMode();
 
-        bot.drivetrain().followTrajectorySequenceAsync(centerTrajectorySequence);
+        selectedTrajectorySequence = selectTrajectorySequence();
+
+        bot.drivetrain().followTrajectorySequenceAsync(selectedTrajectorySequence);
 
         while (!isStopRequested() && opModeIsActive()) {
             bot.update();
@@ -202,8 +200,8 @@ public abstract class AutoMaster extends LinearOpMode {
         } else {
             return centerTrajectorySequence;
         }
-
     }
+
     protected void placePixelOnBoard() {
         bot.dropPixel();
     }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.common.Lift;
 @Config
 @TeleOp(name = "LiftTest", group = "Test")
 
-public class LiftTest extends LinearOpMode {
+public class LiftTestTeleop extends LinearOpMode {
 
     private Lift lift;
     public static double liftPowerFactor = 0.15;

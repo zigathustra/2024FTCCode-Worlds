@@ -15,7 +15,7 @@ public class Lift extends Component {
     private final DcMotorEx liftMotorR;
     private final PIDFController pidfL;
     private final PIDFController pidfR;
-    public static double kP = 0.015;
+    public static double kP = 0.025;
     public static double kI = 0.0;
     public static double kD = 0.0005;
     public static double kF = 0.0001;
@@ -35,7 +35,6 @@ public class Lift extends Component {
     private final double defaultMaxPower = 0.90;
     private double maxPower = defaultMaxPower;
     public static int currentPos;
-
 
     public Lift(HardwareMap hardwareMap, Telemetry telemetry, boolean loggingOn) {
         super(telemetry, loggingOn);
@@ -63,8 +62,8 @@ public class Lift extends Component {
     }
 
     public void update() {
- //       pidfL.setPIDF(kP,kI,kD,kF);
- //       pidfR.setPIDF(kP,kI,kD,kF);
+//        pidfL.setPIDF(kP,kI,kD,kF);
+//        pidfR.setPIDF(kP,kI,kD,kF);
 
         setPIDFMotorPower();
         if (loggingOn) {

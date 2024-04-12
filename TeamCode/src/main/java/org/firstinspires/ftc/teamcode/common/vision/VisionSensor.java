@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.teamcode.common.enums.Alliance;
 import org.firstinspires.ftc.teamcode.common.enums.PropDirection;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -22,10 +21,9 @@ public class VisionSensor {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
-    public VisionSensor(LinearOpMode opMode, Alliance alliance) {
+    public VisionSensor(LinearOpMode opMode) {
         this.opMode = opMode;
         propProcessor = new PropPipeline(this.opMode);
-        propProcessor.setAlliance(alliance);
         aprilTagProcessor = new AprilTagProcessor.Builder().build();
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
