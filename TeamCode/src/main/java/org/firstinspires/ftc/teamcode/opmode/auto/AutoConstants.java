@@ -53,11 +53,11 @@ public final class AutoConstants {
 
     public static Pose2d blueFarCenterSpikePose = new Pose2d(-tileSideLength*2 - 3.50, maxY - 36.25, Math.toRadians(-43));
     public static Pose2d redFarCenterSpikePose = reflectY(blueFarCenterSpikePose);
-    public static Pose2d blueFarRightSpikePose = new Pose2d(-tileSideLength*1.5 -1, maxY - 36, Math.toRadians(0));
+    public static Pose2d blueFarRightSpikePose = new Pose2d(-15.25-tileSideLength*2, maxY - tileSideLength * 1.50, Math.toRadians(0));
     public static Pose2d redFarRightSpikePose = reflectY(blueFarRightSpikePose);
 
     // Far navigation poses
-    public static Pose2d blueFarOutsideStartPose = new Pose2d(-maxX + 18, maxY - 30, Math.toRadians(-35));
+    public static Pose2d blueFarOutsideStartPose = new Pose2d(-maxX + 17, maxY - 25, Math.toRadians(-35));
     public static Pose2d redFarOutsideStartPose = reflectY(blueFarOutsideStartPose);
     public static Pose2d blueFarMainstreetStartPose = new Pose2d(-maxX + 18, maxY - 61, Math.toRadians(0));
     public static Pose2d redFarMainstreetStartPose = reflectY(blueFarMainstreetStartPose);

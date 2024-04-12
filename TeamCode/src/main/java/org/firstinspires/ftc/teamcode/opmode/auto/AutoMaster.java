@@ -33,6 +33,7 @@ public abstract class AutoMaster extends LinearOpMode {
     protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
 
+    private double farBoardHeadingCorrection = -2;
     protected Pose2d farOutsideStartPose, farMainstreetStartPose, farMainstreetEndPose;
     protected MultipleTelemetry multipleTelemetry;
 
@@ -129,6 +130,39 @@ public abstract class AutoMaster extends LinearOpMode {
             telemetry.addLine("Building FAR trajectories.");
             telemetry.update();
 
+            leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
+                    .addTemporalMarker(() -> bot.handlerDeployLevel1())
+                    .lineToLinearHeading(farOutsideStartPose)
+                    .lineToLinearHeading(leftSpikePose)
+                    .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
+                    .waitSeconds(0.50)
+                    .addTemporalMarker(() -> bot.liftToGroundPlacementPosition())
+                    .waitSeconds(0.50)
+                    .addTemporalMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.5)
+                    .back(4)
+                    .addDisplacementMarker(() -> bot.handlerRetract())
+                    .waitSeconds(0.5)
+                    .lineToLinearHeading(farMainstreetStartPose)
+                    .turn(Math.toRadians(farBoardHeadingCorrection))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
+                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
+                    .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
+                    .addTemporalMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(() -> bot.liftToCruisePosition())
+                    .waitSeconds(0.5)
+                    .back(AutoConstants.boardApproachOffset)
+                    .lineToLinearHeading(escapePose)
+                    .lineToLinearHeading(parkPose)
+                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .waitSeconds(3)
+                    .build();
+
+            telemetry.addLine("Left traj built.");
+            telemetry.update();
+
             centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
                     .lineToLinearHeading(farOutsideStartPose)
@@ -143,7 +177,7 @@ public abstract class AutoMaster extends LinearOpMode {
                     .addDisplacementMarker(() -> bot.handlerRetract())
                     .waitSeconds(0.5)
                     .lineToLinearHeading(farMainstreetStartPose)
-                    .turn(Math.toRadians(-1.61))
+                    .turn(Math.toRadians(farBoardHeadingCorrection))
                     .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
@@ -160,6 +194,39 @@ public abstract class AutoMaster extends LinearOpMode {
                     .build();
 
             telemetry.addLine("Center traj built.");
+            telemetry.update();
+
+            rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
+                    .addTemporalMarker(() -> bot.handlerDeployLevel1())
+                    .lineToLinearHeading(farOutsideStartPose)
+                    .lineToLinearHeading(rightSpikePose)
+                    .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
+                    .waitSeconds(0.50)
+                    .addTemporalMarker(() -> bot.liftToGroundPlacementPosition())
+                    .waitSeconds(0.50)
+                    .addTemporalMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.5)
+                    .back(4)
+                    .addDisplacementMarker(() -> bot.handlerRetract())
+                    .waitSeconds(0.5)
+                    .lineToLinearHeading(farMainstreetStartPose)
+                    .turn(Math.toRadians(farBoardHeadingCorrection))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
+                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
+                    .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
+                    .addTemporalMarker(() -> bot.dropPixel())
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(() -> bot.liftToCruisePosition())
+                    .waitSeconds(0.5)
+                    .back(AutoConstants.boardApproachOffset)
+                    .lineToLinearHeading(escapePose)
+                    .lineToLinearHeading(parkPose)
+                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .waitSeconds(3)
+                    .build();
+
+            telemetry.addLine("Right traj built.");
             telemetry.update();
 
         }

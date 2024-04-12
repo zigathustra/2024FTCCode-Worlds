@@ -16,7 +16,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 public class PropPipeline implements VisionProcessor {
-    Scalar leftColor, centerColor;
+    Scalar leftColor, centerColor, rightColor;
     double leftDistance, centerDistance = 1;
     static final Scalar BLUE = new Scalar(0, 0, 255);
     static final Scalar RED = new Scalar(255, 0, 0);
@@ -24,9 +24,9 @@ public class PropPipeline implements VisionProcessor {
     static final Scalar GREEN = new Scalar(0, 255, 0);
     static Scalar targetColor = RED;
     private volatile PropDirection direction = PropDirection.CENTER;
-    static final Point LEFT_REGION_TOP_LEFT_POINT = new Point(115, 255);
-    static final Point CENTER_REGION_TOP_LEFT_POINT = new Point(440, 250);
-    static final Point RIGHT_REGION_TOP_LEFT_POINT = new Point(600, 255);
+    static final Point LEFT_REGION_TOP_LEFT_POINT = new Point(45, 265);
+    static final Point CENTER_REGION_TOP_LEFT_POINT = new Point(230, 230);
+    static final Point RIGHT_REGION_TOP_LEFT_POINT = new Point(600, 230);
     static final int LEFT_REGION_WIDTH = 20;
     static final int LEFT_REGION_HEIGHT = 20;
     static final int CENTER_REGION_WIDTH = 20;
@@ -70,8 +70,12 @@ public class PropPipeline implements VisionProcessor {
     public Object processFrame(Mat input, long captureTimeNanos) {
         double leftColorDistance = 0;
         double centerColorDistance = 0;
-        double centerChannelValue = 0;
+        double rightColorDistance = 0;
+
         double leftChannelValue = 0;
+        double centerChannelValue = 0;
+        double rightChannelValue = 0;
+
         leftRect = new Rect(leftRegionPointA, leftRegionPointB);
         centerRect = new Rect(centerRegionPointA, centerRegionPointB);
         rightRect = new Rect(rightRegionPointA, rightRegionPointB);
@@ -86,81 +90,33 @@ public class PropPipeline implements VisionProcessor {
 
         leftColor = Core.mean(leftRegion);
         centerColor = Core.mean(centerRegion);
+        rightColor = Core.mean(rightRegion);
+
+        leftChannelValue = leftColor.val[2];
+        centerChannelValue = centerColor.val[2];
+        rightChannelValue = rightColor.val[2];
 
         opMode.telemetry.addData("left stdDev: ", colorVariation(leftColor));
         opMode.telemetry.addData("center stdDev: ", colorVariation(centerColor));
-//        opMode.telemetry.update();
-
-        if (targetColor == RED) {
-            leftChannelValue = leftColor.val[0];
-            centerChannelValue = centerColor.val[0];
-        } else {
-            leftChannelValue = leftColor.val[2];
-            centerChannelValue = centerColor.val[2];
-        }
-        opMode.telemetry.addData("left stdDev: ", colorVariation(leftColor));
-        opMode.telemetry.addData("center stdDev: ", colorVariation(centerColor));
-//
-//        opMode.telemetry.addData("left val: ", leftChannelValue);
-//        opMode.telemetry.addData("center val: ", centerChannelValue);
+        opMode.telemetry.addData("right stdDev: ", colorVariation(rightColor));
         opMode.telemetry.update();
 
         double leftVar = colorVariation(leftColor);
         double centerVar = colorVariation(centerColor);
-        if ((leftVar < 10) && centerVar < 10) {
-            direction = PropDirection.RIGHT;
-            rightRegion.setTo(GREEN);
-        } else if (leftVar > centerVar) {
+        double rightVar = colorVariation(rightColor);
+
+        if ((rightVar < 15) && centerVar < 15) {
             direction = PropDirection.LEFT;
             leftRegion.setTo(GREEN);
+        } else if (rightVar > centerVar) {
+            direction = PropDirection.RIGHT;
+            rightRegion.setTo(GREEN);
         } else {
             direction = PropDirection.CENTER;
             centerRegion.setTo(GREEN);
         }
         return (input);
     }
-
-//    @Override
-//    public Object processFrame(Mat input, long captureTimeNanos) {
-//
-//        leftRect = new Rect(leftRegionPointA, leftRegionPointB);
-//        centerRect = new Rect(centerRegionPointA, centerRegionPointB);
-//        rightRect = new Rect(rightRegionPointA, rightRegionPointB);
-//
-//        leftRegion = input.submat(leftRect);
-//        centerRegion = input.submat(centerRect);
-//        rightRegion = input.submat(rightRect);
-//
-//        Imgproc.rectangle(input, leftRegionPointA, leftRegionPointB, BLACK, 2);
-//        Imgproc.rectangle(input, centerRegionPointA, centerRegionPointB, BLACK, 2);
-//        Imgproc.rectangle(input, rightRegionPointA, rightRegionPointB, BLACK, 2);
-//
-//        //Averaging the colors in the zones
-//        leftColor = Core.mean(leftRegion);
-//        centerColor = Core.mean(centerRegion);
-//        leftDistance = colorDistance(targetColor, leftColor);
-//        centerDistance = colorDistance(targetColor, centerColor);
-////        opMode.telemetry.addData("leftColor: ", leftColor);
-////        opMode.telemetry.addData("centerColor: ", centerColor);
-//        opMode.telemetry.addData("leftDistance: ", leftDistance);
-//        opMode.telemetry.addData("centerDistance: ", centerDistance);
-//        opMode.telemetry.update();
-//        if ((leftDistance > 195) && (centerDistance > 190)) {
-//            direction = PropDirection.RIGHT;
-//            rightRegion.setTo(GREEN);
-//        } else {
-//            if (leftDistance < centerDistance) {
-//                direction = PropDirection.LEFT;
-//                leftRegion.setTo(GREEN);
-//
-//            } else {
-//                direction = PropDirection.CENTER;
-//                centerRegion.setTo(GREEN);
-//            }
-//        }
-//
-//        return (input);
-//    }
 
     public double colorVariation(Scalar color) {
         double r = color.val[0];

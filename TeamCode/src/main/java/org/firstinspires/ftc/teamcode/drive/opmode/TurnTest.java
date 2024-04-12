@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.common.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
 
 /*
  * This is a simple routine to test turning capabilities.

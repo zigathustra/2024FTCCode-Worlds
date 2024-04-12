@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
 
 import java.util.List;
 
