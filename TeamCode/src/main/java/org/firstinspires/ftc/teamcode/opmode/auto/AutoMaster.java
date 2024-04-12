@@ -33,7 +33,7 @@ public abstract class AutoMaster extends LinearOpMode {
     protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
 
-    private double farBoardHeadingCorrection = -2;
+    private double farBoardHeadingCorrection = -2.25;
     protected Pose2d farOutsideStartPose, farMainstreetStartPose, farMainstreetEndPose;
     protected MultipleTelemetry multipleTelemetry;
 
