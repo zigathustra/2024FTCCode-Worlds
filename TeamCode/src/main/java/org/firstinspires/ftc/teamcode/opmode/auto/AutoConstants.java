@@ -49,12 +49,11 @@ public final class AutoConstants {
 
     // Far spike mark poses
     public static Pose2d blueFarLeftSpikePose = new Pose2d(-15.25-tileSideLength, maxY - tileSideLength * 1.50, Math.toRadians(0));
-    public static Pose2d redFarLeftSpikePose = reflectY(blueFarLeftSpikePose);
-
+    public static Pose2d redFarRightSpikePose = reflectY(blueFarLeftSpikePose);
     public static Pose2d blueFarCenterSpikePose = new Pose2d(-tileSideLength*2 - 3.50, maxY - 36.25, Math.toRadians(-43));
     public static Pose2d redFarCenterSpikePose = reflectY(blueFarCenterSpikePose);
     public static Pose2d blueFarRightSpikePose = new Pose2d(-15.25-tileSideLength*2, maxY - tileSideLength * 1.50, Math.toRadians(0));
-    public static Pose2d redFarRightSpikePose = reflectY(blueFarRightSpikePose);
+    public static Pose2d redFarLeftSpikePose = reflectY(blueFarRightSpikePose);
 
     // Far navigation poses
     public static Pose2d blueFarOutsideStartPose = new Pose2d(-maxX + 17, maxY - 25, Math.toRadians(-35));
