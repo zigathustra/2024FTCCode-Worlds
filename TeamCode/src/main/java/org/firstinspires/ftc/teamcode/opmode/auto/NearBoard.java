@@ -33,7 +33,6 @@ public class NearBoard extends AutoMaster {
             leftBoardPose = AutoConstants.blueLeftBackdrop;
             rightBoardPose = AutoConstants.blueRightBackdrop;
             centerBoardPose = AutoConstants.blueCenterBackdrop;
-            parkPose = AutoConstants.blueCornerParkPose;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.blueNearEscapeCornerPose;
                 parkPose = AutoConstants.blueCornerParkPose;

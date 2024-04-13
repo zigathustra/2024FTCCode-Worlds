@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -23,7 +23,7 @@ public class StraightTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap,telemetry, false);
+        AutoDrivetrain3Wheel drive = new AutoDrivetrain3Wheel(hardwareMap,telemetry, false);
 
 
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())

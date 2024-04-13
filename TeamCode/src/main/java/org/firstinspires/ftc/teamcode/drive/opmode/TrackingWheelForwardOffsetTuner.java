@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 /**
@@ -45,7 +45,7 @@ public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry,false);
+        AutoDrivetrain3Wheel drive = new AutoDrivetrain3Wheel(hardwareMap, telemetry,false);
 
 
         if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {

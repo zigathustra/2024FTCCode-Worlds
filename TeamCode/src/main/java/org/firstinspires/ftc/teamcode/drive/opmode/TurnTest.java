@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 
 /*
  * This is a simple routine to test turning capabilities.
@@ -16,7 +16,7 @@ public class TurnTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap,telemetry, false);
+        AutoDrivetrain3Wheel drive = new AutoDrivetrain3Wheel(hardwareMap,telemetry, false);
 
 
         waitForStart();

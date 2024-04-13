@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.WebHandlerManager;
 
 import org.firstinspires.ftc.ftccommon.external.WebHandlerRegistrar;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
@@ -65,13 +65,13 @@ public final class LogFiles {
         public double maxAngVel = DriveConstants.MAX_ANG_VEL;
         public double maxAngAccel = DriveConstants.MAX_ANG_ACCEL;
 
-        public double mecTransP = AutoDrivetrain.TRANSLATIONAL_PID.kP;
-        public double mecTransI = AutoDrivetrain.TRANSLATIONAL_PID.kI;
-        public double mecTransD = AutoDrivetrain.TRANSLATIONAL_PID.kD;
-        public double mecHeadingP = AutoDrivetrain.HEADING_PID.kP;
-        public double mecHeadingI = AutoDrivetrain.HEADING_PID.kI;
-        public double mecHeadingD = AutoDrivetrain.HEADING_PID.kD;
-        public double mecLateralMultiplier = AutoDrivetrain.LATERAL_MULTIPLIER;
+        public double mecTransP = AutoDrivetrain3Wheel.TRANSLATIONAL_PID.kP;
+        public double mecTransI = AutoDrivetrain3Wheel.TRANSLATIONAL_PID.kI;
+        public double mecTransD = AutoDrivetrain3Wheel.TRANSLATIONAL_PID.kD;
+        public double mecHeadingP = AutoDrivetrain3Wheel.HEADING_PID.kP;
+        public double mecHeadingI = AutoDrivetrain3Wheel.HEADING_PID.kI;
+        public double mecHeadingD = AutoDrivetrain3Wheel.HEADING_PID.kD;
+        public double mecLateralMultiplier = AutoDrivetrain3Wheel.LATERAL_MULTIPLIER;
 
         public double trackingTicksPerRev = StandardTrackingWheelLocalizer.TICKS_PER_REV;
         public double trackingWheelRadius = StandardTrackingWheelLocalizer.WHEEL_RADIUS;

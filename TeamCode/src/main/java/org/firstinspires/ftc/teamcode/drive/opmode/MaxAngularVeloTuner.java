@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class MaxAngularVeloTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        AutoDrivetrain drive = new AutoDrivetrain(hardwareMap, telemetry,false);
+        AutoDrivetrain3Wheel drive = new AutoDrivetrain3Wheel(hardwareMap, telemetry,false);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

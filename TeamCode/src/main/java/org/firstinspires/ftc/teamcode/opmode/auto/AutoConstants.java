@@ -62,7 +62,7 @@ public final class AutoConstants {
     public static Pose2d blueFarMainstreetStartPose = new Pose2d(-maxX + 18, maxY - 61, Math.toRadians(0));
     public static Pose2d redFarMainstreetStartPose = reflectY(blueFarMainstreetStartPose);
     public static Pose2d blueFarMainstreetEndPose = new Pose2d(maxX - 38, maxY - 61, Math.toRadians(0));
-    public static Pose2d redFarMainstreetEndPose = reflectY(blueFarMainstreetStartPose);
+    public static Pose2d redFarMainstreetEndPose = reflectY(blueFarMainstreetEndPose);
 
     // Board poses (same for near and far)
     public static Pose2d blueCenterBackdrop = new Pose2d(maxX - boardXOffset - boardApproachOffset, maxY - boardYOffset - boardAprilTagSpacing + 0.5, Math.toRadians(0));

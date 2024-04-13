@@ -18,11 +18,13 @@ public class FarBoard extends AutoMaster {
             centerBoardPose = AutoConstants.redCenterBackdrop;
             farOutsideStartPose = AutoConstants.redFarOutsideStartPose;
             farMainstreetStartPose = AutoConstants.redFarMainstreetStartPose;
+            farBoardHeadingCorrection = 2.55;
             farMainstreetEndPose = AutoConstants.redFarMainstreetEndPose;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.redNearEscapeCornerPose;
                 parkPose = AutoConstants.redCornerParkPose;
-            } else
+            }
+            else
             {
                 escapePose = AutoConstants.redNearEscapeCenterPose;
                 parkPose = AutoConstants.redCenterParkPose;
@@ -37,6 +39,7 @@ public class FarBoard extends AutoMaster {
             centerBoardPose = AutoConstants.blueCenterBackdrop;
             farOutsideStartPose = AutoConstants.blueFarOutsideStartPose;
             farMainstreetStartPose = AutoConstants.blueFarMainstreetStartPose;
+            farBoardHeadingCorrection = -2.55;
             farMainstreetEndPose = AutoConstants.blueFarMainstreetEndPose;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.blueNearEscapeCornerPose;

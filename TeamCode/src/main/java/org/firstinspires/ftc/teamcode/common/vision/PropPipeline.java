@@ -24,9 +24,9 @@ public class PropPipeline implements VisionProcessor {
     static final Scalar GREEN = new Scalar(0, 255, 0);
     static Scalar targetColor = RED;
     private volatile PropDirection direction = PropDirection.CENTER;
-    static final Point LEFT_REGION_TOP_LEFT_POINT = new Point(45, 265);
-    static final Point CENTER_REGION_TOP_LEFT_POINT = new Point(230, 230);
-    static final Point RIGHT_REGION_TOP_LEFT_POINT = new Point(600, 230);
+    static final Point LEFT_REGION_TOP_LEFT_POINT = new Point(45, 260);
+    static final Point CENTER_REGION_TOP_LEFT_POINT = new Point(225, 240);
+    static final Point RIGHT_REGION_TOP_LEFT_POINT = new Point(600, 260);
     static final int LEFT_REGION_WIDTH = 20;
     static final int LEFT_REGION_HEIGHT = 20;
     static final int CENTER_REGION_WIDTH = 20;
@@ -96,10 +96,10 @@ public class PropPipeline implements VisionProcessor {
         centerChannelValue = centerColor.val[2];
         rightChannelValue = rightColor.val[2];
 
-        opMode.telemetry.addData("left stdDev: ", colorVariation(leftColor));
-        opMode.telemetry.addData("center stdDev: ", colorVariation(centerColor));
-        opMode.telemetry.addData("right stdDev: ", colorVariation(rightColor));
-        opMode.telemetry.update();
+//        opMode.telemetry.addData("left stdDev: ", colorVariation(leftColor));
+//        opMode.telemetry.addData("center stdDev: ", colorVariation(centerColor));
+//        opMode.telemetry.addData("right stdDev: ", colorVariation(rightColor));
+//        opMode.telemetry.update();
 
         double leftVar = colorVariation(leftColor);
         double centerVar = colorVariation(centerColor);

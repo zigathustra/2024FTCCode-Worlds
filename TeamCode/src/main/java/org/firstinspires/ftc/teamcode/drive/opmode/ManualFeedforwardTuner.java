@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain;
+import org.firstinspires.ftc.teamcode.drive.AutoDrivetrain3Wheel;
 
 import java.util.Objects;
 
@@ -48,7 +48,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    private AutoDrivetrain drive;
+    private AutoDrivetrain3Wheel drive;
 
     enum Mode {
         DRIVER_MODE,
@@ -72,7 +72,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 
-        drive = new AutoDrivetrain(hardwareMap,telemetry, false);
+        drive = new AutoDrivetrain3Wheel(hardwareMap,telemetry, false);
 
         final VoltageSensor voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
