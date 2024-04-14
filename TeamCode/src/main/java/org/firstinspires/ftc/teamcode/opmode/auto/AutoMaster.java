@@ -30,12 +30,14 @@ public abstract class AutoMaster extends LinearOpMode {
 
     private StartPosition startPosition;
     protected VisionSensor visionSensor;
-    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence;
+    protected static TrajectorySequence leftTrajectorySequence, centerTrajectorySequence, rightTrajectorySequence, selectedTrajectorySequence, tempTrajectorySequence;
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
 
     protected static double farBoardHeadingCorrection;
     protected Pose2d farCenterEscapePose, farMainstreetPrepPose, farMainstreetStartPose, farMainstreetEndPose, farRightEscapePose;
     protected MultipleTelemetry multipleTelemetry;
+
+    protected boolean flipFarLeftAndRightTrajectories = false;
 
     protected double startHeading;
 
@@ -136,6 +138,7 @@ public abstract class AutoMaster extends LinearOpMode {
             telemetry.addLine("Right near traj built.");
             telemetry.update();
         } else if (startPosition == StartPosition.FAR) {
+
             telemetry.addLine("Building FAR trajectories.");
             telemetry.update();
 
@@ -149,23 +152,20 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
-                    .back(6)
-                    .addDisplacementMarker(() -> bot.handlerRetract())
+                    .back(8)
+/*                    .addDisplacementMarker(() -> bot.handlerRetract())
                     .waitSeconds(0.5)
                     .lineToLinearHeading(farMainstreetStartPose)
                     .turn(bot.drivetrain().getHeadingError(startHeading))
                     .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(farMainstreetEndPose)
-                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
-                    .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
-                    .addTemporalMarker(() -> bot.dropPixel())
-                    .waitSeconds(0.5)
-                    .addTemporalMarker(() -> bot.liftToCruisePosition())
-                    .waitSeconds(0.5)
-                    .back(AutoConstants.boardApproachOffset)
-                    .lineToLinearHeading(escapePose)
                     .lineToLinearHeading(parkPose)
-                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .addTemporalMarker(()->bot.handlerDeployLevel1())
+                    .waitSeconds(0.5)
+
+ */
+                    .lineToLinearHeading(startPose)
+                    .addTemporalMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
 
@@ -181,7 +181,8 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
-                    .back(4)
+                    .back(8)
+                    /*
                     .lineToLinearHeading(farCenterEscapePose)
                     .addDisplacementMarker(() -> bot.handlerRetract())
                     .lineToLinearHeading(farMainstreetPrepPose)
@@ -189,16 +190,15 @@ public abstract class AutoMaster extends LinearOpMode {
                     .turn(bot.drivetrain().getHeadingError(startHeading))
                     .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(farMainstreetEndPose)
-                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
-                    .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
-                    .addTemporalMarker(() -> bot.dropPixel())
-                    .waitSeconds(0.5)
-                    .addTemporalMarker(() -> bot.liftToCruisePosition())
-                    .waitSeconds(0.5)
-                    .back(AutoConstants.boardApproachOffset)
-                    .lineToLinearHeading(escapePose)
+                    .turn(bot.drivetrain().getHeadingError(startHeading))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(parkPose)
-                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .addTemporalMarker(()->bot.handlerDeployLevel1())
+                    .waitSeconds(0.5)
+
+                     */
+                    .lineToLinearHeading(startPose)
+                    .addTemporalMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
 
@@ -214,7 +214,8 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
-                    .back(6)
+                    .back(8)
+                    /*
                     .addDisplacementMarker(() -> bot.handlerRetract())
                     .waitSeconds(0.5)
                     .lineToLinearHeading(farRightEscapePose)
@@ -223,22 +224,26 @@ public abstract class AutoMaster extends LinearOpMode {
                     .turn(bot.drivetrain().getHeadingError(startHeading))
                     .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(farMainstreetEndPose)
-                    .addDisplacementMarker(() -> bot.handlerDeployLevel1())
-                    .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
-                    .addTemporalMarker(() -> bot.dropPixel())
-                    .waitSeconds(0.5)
-                    .addTemporalMarker(() -> bot.liftToCruisePosition())
-                    .waitSeconds(0.5)
-                    .back(AutoConstants.boardApproachOffset)
-                    .lineToLinearHeading(escapePose)
+                    .turn(bot.drivetrain().getHeadingError(startHeading))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(parkPose)
-                    .addDisplacementMarker(() -> bot.tuckDropper())
+                    .addTemporalMarker(()->bot.handlerDeployLevel1())
+                    .waitSeconds(0.5)
+                     */
+                    .lineToLinearHeading(startPose)
+                    .addTemporalMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
 
             telemetry.addLine("Right traj built.");
             telemetry.update();
 
+            if (flipFarLeftAndRightTrajectories)
+            {
+                tempTrajectorySequence = leftTrajectorySequence;
+                leftTrajectorySequence = rightTrajectorySequence;
+                rightTrajectorySequence = tempTrajectorySequence;
+            }
         }
         /*
         assert (leftTrajectorySequence != null);
@@ -253,13 +258,9 @@ public abstract class AutoMaster extends LinearOpMode {
 
             propDirection = visionSensor.getPropDirection();
             telemetry.addData("Prop Position: ", propDirection);
-            telemetry.addData("startPose.x", startPose.getX());
-            telemetry.addData("startPose.y", startPose.getY());
-            telemetry.addData("startPose.heading", startPose.getHeading());
-            telemetry.addData("centerBoardPose.x", centerBoardPose.getX());
-            telemetry.addData("centerBoardPose.y", centerBoardPose.getY());
-            telemetry.addData("centerBoardPose.heading", centerBoardPose.getHeading());
-
+//            telemetry.addData("startPose.x", startPose.getX());
+//            telemetry.addData("startPose.y", startPose.getY());
+//            telemetry.addData("startPose.heading", startPose.getHeading());
             telemetry.update();
 
             sleep(50);

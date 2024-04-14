@@ -25,11 +25,11 @@ public class Bot extends Component {
     private double shoulderLDeploy1Pos = 0.9;
     private double shoulderLLoadPos = 0.375;
     private double shoulderLGroundPos = 0.75;
-    private double wristDeploy1Pos = 0.8;
+    private double wristDeploy1Pos = 0.82;
     private double wristLoadPos = 0.125;
     private double wristGroundPos = 0.0;
-    private double launcherLockPos = 0.75;
-    private double launcherUnlockPos = 0.25;
+    private double launcherLockPos = 0.0;
+    private double launcherUnlockPos = 0.15;
     private boolean loading = false;
     ElapsedTime timer;
 

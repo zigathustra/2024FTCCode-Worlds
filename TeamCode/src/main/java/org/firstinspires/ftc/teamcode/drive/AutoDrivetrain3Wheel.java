@@ -139,7 +139,17 @@ public class AutoDrivetrain3Wheel extends MecanumDrive {
     public double getHeadingError(double startHeading) {
         double imuHeading = getImuHeading();
         double targetHeading = getPoseEstimate().getHeading();
-        return(targetHeading - imuHeading - startHeading);
+        double actualFieldHeading = imuHeading + startHeading;
+        double error = targetHeading - actualFieldHeading;
+        if (error > Math.toRadians(180))
+        {
+            error = error - Math.toRadians(360);
+        } else if (error < Math.toRadians(-180))
+        {
+            error = error + Math.toRadians(360);
+        }
+
+        return(error);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
