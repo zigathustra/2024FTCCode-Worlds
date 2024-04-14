@@ -34,8 +34,10 @@ public abstract class AutoMaster extends LinearOpMode {
     protected Pose2d startPose, leftSpikePose, centerSpikePose, rightSpikePose, escapePose, leftBoardPose, rightBoardPose, centerBoardPose, parkPose;
 
     protected static double farBoardHeadingCorrection;
-    protected Pose2d farOutsideStartPose, farMainstreetStartPose, farMainstreetEndPose;
+    protected Pose2d farCenterEscapePose, farMainstreetPrepPose, farMainstreetStartPose, farMainstreetEndPose, farRightEscapePose;
     protected MultipleTelemetry multipleTelemetry;
+
+    protected double startHeading;
 
     protected AutoMaster(StartPosition startPosition) {
         this.startPosition = startPosition;
@@ -128,7 +130,6 @@ public abstract class AutoMaster extends LinearOpMode {
                     .back(4)
                     .lineToLinearHeading(escapePose)
                     .lineToLinearHeading(parkPose)
-                    .splineToLinearHeading(parkPose, parkPose.getHeading())
                     .addDisplacementMarker(() -> bot.tuckDropper())
                     .waitSeconds(3)
                     .build();
@@ -140,6 +141,7 @@ public abstract class AutoMaster extends LinearOpMode {
 
             leftTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
+                    .forward(12)
                     .lineToLinearHeading(leftSpikePose)
                     .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
                     .waitSeconds(0.50)
@@ -147,13 +149,13 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
-                    .back(4)
+                    .back(6)
                     .addDisplacementMarker(() -> bot.handlerRetract())
                     .waitSeconds(0.5)
                     .lineToLinearHeading(farMainstreetStartPose)
-//                    .turn(Math.toRadians(farBoardHeadingCorrection))
-//                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
-                    .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
+                    .turn(bot.drivetrain().getHeadingError(startHeading))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .lineToLinearHeading(farMainstreetEndPose)
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
                     .splineToLinearHeading(leftBoardPose, leftBoardPose.getHeading())
                     .addTemporalMarker(() -> bot.dropPixel())
@@ -172,7 +174,7 @@ public abstract class AutoMaster extends LinearOpMode {
 
             centerTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
-                    .lineToLinearHeading(centerSpikePose)
+                    .splineToLinearHeading(centerSpikePose, centerSpikePose.getHeading())
                     .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.liftToGroundPlacementPosition())
@@ -180,12 +182,12 @@ public abstract class AutoMaster extends LinearOpMode {
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
                     .back(4)
+                    .lineToLinearHeading(farCenterEscapePose)
                     .addDisplacementMarker(() -> bot.handlerRetract())
-                    .waitSeconds(0.5)
-//                    .lineToLinearHeading(farOutsideStartPose)
+                    .lineToLinearHeading(farMainstreetPrepPose)
                     .lineToLinearHeading(farMainstreetStartPose)
-//                    .turn(Math.toRadians(farBoardHeadingCorrection))
-//                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
+                    .turn(bot.drivetrain().getHeadingError(startHeading))
+                    .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
                     .lineToLinearHeading(farMainstreetEndPose)
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
                     .splineToLinearHeading(centerBoardPose, centerBoardPose.getHeading())
@@ -205,7 +207,6 @@ public abstract class AutoMaster extends LinearOpMode {
 
             rightTrajectorySequence = bot.drivetrain().trajectorySequenceBuilder(startPose)
                     .addTemporalMarker(() -> bot.handlerDeployLevel1())
-                    .lineToLinearHeading(farOutsideStartPose)
                     .lineToLinearHeading(rightSpikePose)
                     .addTemporalMarker(() -> bot.dropperToGroundPlacementPosition())
                     .waitSeconds(0.50)
@@ -213,13 +214,15 @@ public abstract class AutoMaster extends LinearOpMode {
                     .waitSeconds(0.50)
                     .addTemporalMarker(() -> bot.dropPixel())
                     .waitSeconds(0.5)
-                    .back(4)
+                    .back(6)
                     .addDisplacementMarker(() -> bot.handlerRetract())
                     .waitSeconds(0.5)
+                    .lineToLinearHeading(farRightEscapePose)
+                    .forward(24)
                     .lineToLinearHeading(farMainstreetStartPose)
-                    .turn(Math.toRadians(farBoardHeadingCorrection))
+                    .turn(bot.drivetrain().getHeadingError(startHeading))
                     .addDisplacementMarker(() -> bot.drivetrain().setPoseEstimate(farMainstreetStartPose))
-                    .splineToLinearHeading(farMainstreetEndPose, farMainstreetStartPose.getHeading())
+                    .lineToLinearHeading(farMainstreetEndPose)
                     .addDisplacementMarker(() -> bot.handlerDeployLevel1())
                     .splineToLinearHeading(rightBoardPose, rightBoardPose.getHeading())
                     .addTemporalMarker(() -> bot.dropPixel())

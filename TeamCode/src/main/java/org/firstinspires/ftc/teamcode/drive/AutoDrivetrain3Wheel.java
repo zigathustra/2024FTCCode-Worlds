@@ -77,14 +77,16 @@ public class AutoDrivetrain3Wheel extends MecanumDrive {
 
     private VoltageSensor batteryVoltageSensor;
 
+    private IMU imu;
+
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
 
-    public AutoDrivetrain3Wheel(HardwareMap hardwareMap, Telemetry telemetry,boolean loggingOn) {
+    public AutoDrivetrain3Wheel(HardwareMap hardwareMap, Telemetry telemetry, boolean loggingOn) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
-                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
+                new Pose2d(0.25, 0.25, Math.toRadians(.5)), 0.5);
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
@@ -94,6 +96,10 @@ public class AutoDrivetrain3Wheel extends MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+        imu.initialize(parameters);
 
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFrontDrive");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftBackDrive");
@@ -126,6 +132,16 @@ public class AutoDrivetrain3Wheel extends MecanumDrive {
         );
     }
 
+    public double getImuHeading() {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
+
+    public double getHeadingError(double startHeading) {
+        double imuHeading = getImuHeading();
+        double targetHeading = getPoseEstimate().getHeading();
+        return(targetHeading - imuHeading - startHeading);
+    }
+
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
     }
@@ -145,6 +161,7 @@ public class AutoDrivetrain3Wheel extends MecanumDrive {
                 MAX_ANG_VEL, MAX_ANG_ACCEL
         );
     }
+
     public void turnAsync(double angle) {
         trajectorySequenceRunner.followTrajectorySequenceAsync(
                 trajectorySequenceBuilder(getPoseEstimate())

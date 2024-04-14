@@ -16,10 +16,13 @@ public class FarBoard extends AutoMaster {
             leftBoardPose = AutoConstants.redLeftBackdrop;
             rightBoardPose = AutoConstants.redRightBackdrop;
             centerBoardPose = AutoConstants.redCenterBackdrop;
-            farOutsideStartPose = AutoConstants.redFarOutsideStartPose;
+            farCenterEscapePose = AutoConstants.redFarCenterEscapePose;
+            farMainstreetPrepPose = AutoConstants.redFarMainstreetPrepPose;
             farMainstreetStartPose = AutoConstants.redFarMainstreetStartPose;
+            farRightEscapePose = AutoConstants.redFarRightEscapePose;
             farBoardHeadingCorrection = 2.55;
             farMainstreetEndPose = AutoConstants.redFarMainstreetEndPose;
+            startHeading = AutoConstants.redStartHeading;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.redNearEscapeCornerPose;
                 parkPose = AutoConstants.redCornerParkPose;
@@ -37,10 +40,13 @@ public class FarBoard extends AutoMaster {
             leftBoardPose = AutoConstants.blueLeftBackdrop;
             rightBoardPose = AutoConstants.blueRightBackdrop;
             centerBoardPose = AutoConstants.blueCenterBackdrop;
-            farOutsideStartPose = AutoConstants.blueFarOutsideStartPose;
+            farCenterEscapePose = AutoConstants.blueFarCenterEscapePose;
+            farMainstreetPrepPose = AutoConstants.blueFarMainstreetPrepPose;
             farMainstreetStartPose = AutoConstants.blueFarMainstreetStartPose;
+            farRightEscapePose = AutoConstants.blueFarRightEscapePose;
             farBoardHeadingCorrection = -2.55;
             farMainstreetEndPose = AutoConstants.blueFarMainstreetEndPose;
+            startHeading = AutoConstants.blueStartHeading;
             if (parkPosition == ParkPosition.CORNER) {
                 escapePose = AutoConstants.blueNearEscapeCornerPose;
                 parkPose = AutoConstants.blueCornerParkPose;

@@ -15,7 +15,7 @@ public class Lift extends Component {
     private final DcMotorEx liftMotorR;
     private final PIDFController pidfL;
     private final PIDFController pidfR;
-    public static double kP = 0.025;
+    public static double kP = 0.020;
     public static double kI = 0.0;
     public static double kD = 0.0005;
     public static double kF = 0.0001;
