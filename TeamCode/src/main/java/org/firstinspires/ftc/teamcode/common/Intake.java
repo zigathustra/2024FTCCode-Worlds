@@ -12,7 +12,7 @@ public class Intake extends Component {
     private final Servo intakeServo;
     private final double upPos = 1.0;
     private final double downPos = 0.175;
-    private final double maxPower = 0.90;
+    private final double maxPower = 0.9;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetry, boolean loggingOn) {
         super(telemetry, loggingOn);

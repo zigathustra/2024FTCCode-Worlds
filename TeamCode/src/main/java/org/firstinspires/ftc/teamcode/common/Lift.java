@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardware_data.GoBilda435DcMotorData;
@@ -15,19 +18,21 @@ public class Lift extends Component {
     private final DcMotorEx liftMotorR;
     private final PIDFController pidfL;
     private final PIDFController pidfR;
-    public static double kP = 0.020;
+    public static double kP = 0.02;
+    //original kP = 0.025
     public static double kI = 0.0;
-    public static double kD = 0.0005;
+    public static double kD = 0.0002;
+    //original kD = 0.0005
     public static double kF = 0.0001;
     private final double positionTolerance = 10;
     private final double derivativeTolerance = 10;
     private final double maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
     private final int maxPos = 2000;
     private final int retractPos = 800;
-    private final int cruisePos = 800;
-    private final int deploy1Pos = 650;
+    private final int cruisePos = 950;
+    private final int deploy1Pos = 725;
     private final int groundPlacementPos = 150;
-    private final int loadPos = 75;
+    private final int loadPos = 105;
     private final int minPos = 0;
     public static int targetPos;
     private int autoOffset = 0;
@@ -114,7 +119,13 @@ public class Lift extends Component {
     }
     public void goToCruisePosition()
     {
-        setTargetPos(cruisePos);
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        manualUp(0.5);
+        while (timer.milliseconds() < 350)
+        {}
+        stop();
+//        setTargetPos(cruisePos);
     }
     public void goToGroundPlacementPosition(){setTargetPos(groundPlacementPos);}
 

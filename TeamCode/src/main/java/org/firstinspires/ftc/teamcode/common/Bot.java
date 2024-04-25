@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,17 +20,17 @@ public class Bot extends Component {
     public static boolean handlerDeploying = false;
     public static boolean handlerRetracting = false;
     public static boolean dropperDeployed = true;
-    private double shoulderRDeploy1Pos = 0.9;
+    private double shoulderRDeploy1Pos = 0.83;
     private double shoulderRLoadPos = 0.375;
     private double shouldRGroundPos = 0.75;
-    private double shoulderLDeploy1Pos = 0.9;
+    private double shoulderLDeploy1Pos = 0.83;
     private double shoulderLLoadPos = 0.375;
     private double shoulderLGroundPos = 0.75;
-    private double wristDeploy1Pos = 0.82;
+    private double wristDeploy1Pos = 0.7;
     private double wristLoadPos = 0.125;
     private double wristGroundPos = 0.0;
-    private double launcherLockPos = 0.0;
-    private double launcherUnlockPos = 0.15;
+    private double launcherLockPos = 0.1;
+    private double launcherUnlockPos = 0.45 ;
     private boolean loading = false;
     ElapsedTime timer;
 
@@ -211,7 +212,7 @@ public class Bot extends Component {
                 if (dropperDeployed) {
                     dropperRetract();
                     dropperDeployed = false;
-                } else if (timer.milliseconds() > 250) {
+                } else if (timer.milliseconds() > 350) {
                     liftLoad();
                     handlerDeployed = false;
                     handlerRetracting = false;

@@ -18,12 +18,12 @@ public final class AutoConstants {
     public static double botCenterOffsetFromRear = botFrameLength - botCenterOffsetFromFront;
     public static double botCenterOffsetFromLeft = botFrameWidth / 2.0;
     public static double tileSideLength = 24;
-    public static double boardXOffset = 10.75;
+    public static double boardXOffset = 10;
     public static double boardYOffset = 25.5 + 5.25;
     public static double boardAprilTagSpacing = 6;
 
     // Maneuver constants
-    public static double boardApproachOffset = 9.25;
+    public static double boardApproachOffset = 10.25;
 
     // Start headings in degrees
     public static double blueStartHeading = Math.toRadians(-90.0);
@@ -79,7 +79,7 @@ public final class AutoConstants {
     public static Pose2d redLeftBackdrop = reflectY(blueRightBackdrop);
     public static Pose2d blueCornerParkPose= new Pose2d(72 - botFrameLength * 1.25, 72-botFrameWidth/2 - 4.5, Math.toRadians(180));
     public static Pose2d redCornerParkPose = reflectY(blueCornerParkPose);
-    public static Pose2d blueCenterParkPose= new Pose2d(72 - botFrameLength * 1.25, 72-botFrameWidth/2 - 4.5 - 45, Math.toRadians(180));
+    public static Pose2d blueCenterParkPose= new Pose2d(72 - botFrameLength * 1.25, 72-botFrameWidth/2 - 4.5 - 47.5, Math.toRadians(180));
     public static Pose2d redCenterParkPose = reflectY(blueCenterParkPose);
 
     public static Pose2d reflectY(Pose2d pose) {
