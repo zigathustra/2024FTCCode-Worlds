@@ -76,58 +76,49 @@ public class Lift extends Component {
         }
     }
 
-    public void manualUp(double power)
-    {
-        if (!atTop(manualOffset))
-        {
+    public void manualUp(double power) {
+        if (!atTop(manualOffset)) {
             setMotorsPower(power);
-        } else
-        {
+        } else {
             stop();
         }
     }
 
-    public void manualDown(double power)
-    {
-        if (!atBottom(manualOffset))
-        {
+    public void manualDown(double power) {
+        if (!atBottom(manualOffset)) {
             setMotorsPower(-power);
-        } else
-        {
+        } else {
             stop();
         }
     }
 
-    public void stop()
-    {
+    public void stop() {
         setTargetPos(liftMotorL.getCurrentPosition());
     }
-    public void goToRetractPosition()
-    {
+
+    public void goToRetractPosition() {
         setTargetPos(retractPos);
     }
-    public void goToLoadPosition()
-    {
+
+    public void goToLoadPosition() {
         setTargetPos(loadPos);
     }
+
     public void goToMinPosition() {
         setTargetPos(minPos);
     }
-    public void goToDeploy1Position()
-    {
+
+    public void goToDeploy1Position() {
         setTargetPos(deploy1Pos);
     }
-    public void goToCruisePosition()
-    {
-        ElapsedTime timer = new ElapsedTime();
-        timer.reset();
-        manualUp(0.5);
-        while (timer.milliseconds() < 350)
-        {}
-        stop();
-//        setTargetPos(cruisePos);
+
+    public void goToCruisePosition() {
+        setTargetPos(cruisePos);
     }
-    public void goToGroundPlacementPosition(){setTargetPos(groundPlacementPos);}
+
+    public void goToGroundPlacementPosition() {
+        setTargetPos(groundPlacementPos);
+    }
 
     private boolean atTop(int offset) {
         if ((liftMotorL.getCurrentPosition() - offset) >= maxPos) {
@@ -165,11 +156,9 @@ public class Lift extends Component {
     public void setTargetPos(int targetPos) {
         if (targetPos < minPos) {
             this.targetPos = minPos;
-        } else if (targetPos > maxPos)
-        {
+        } else if (targetPos > maxPos) {
             this.targetPos = maxPos;
-        } else
-        {
+        } else {
             this.targetPos = targetPos;
         }
     }
@@ -186,6 +175,6 @@ public class Lift extends Component {
         telemetry.addData("PowerL:  ", liftMotorL.getPower());
         telemetry.addData("PowerR:  ", liftMotorR.getPower());
         telemetry.addData("Busy:  ", isBusy());
- //        telemetry.update();
+        //        telemetry.update();
     }
 }
